@@ -42,6 +42,12 @@
 <li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="articles/Subsampling.html">Subsampling</a>
+  </div>
+</li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
@@ -78,11 +84,26 @@
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>This is a basic example which shows you how to solve a common problem:</p>
+<p>This is a basic example which shows you how to get subsample index, such as uniform sampling and OSMAC:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JieYinStat/dbsubsampling" class="external-link">dbsubsampling</a></span><span class="op">)</span></span>
-<span><span class="co">## basic example code</span></span></code></pre></div>
-<p>What is special about using <code>README.Rmd</code> instead of just <code>README.md</code>? You can include R chunks like so:</p>
+<span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data_binary_class</span></span>
+<span><span class="co"># Uniform sampling</span></span>
+<span><span class="fu"><a href="reference/subsampling.html">subsampling</a></span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data</span>, n <span class="op">=</span> <span class="fl">30</span>, method <span class="op">=</span> <span class="st">"Unif"</span>, seed_1 <span class="op">=</span> <span class="fl">123</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] 2463 2511 8718 2986 1842 9334 3371 4761 6746 9819 2757 5107 9145 9209 2888</span></span>
+<span><span class="co">#&gt; [16] 6170 2567 9642 9982 2980 1614  555 4469 9359 7789 9991 9097 1047 7067 3004</span></span>
+<span><span class="co"># OSMAC-A</span></span>
+<span><span class="fu"><a href="reference/subsampling.html">subsampling</a></span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data</span>, n <span class="op">=</span> <span class="fl">30</span>, pilot_n <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"OSMAC_A"</span>, seed_1 <span class="op">=</span> <span class="fl">123</span>, seed_2 <span class="op">=</span> <span class="fl">456</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] 5684 1620 5372 8297 8863 9783 6483 6103 2702 5735 9382   40 9919 8623 2816</span></span>
+<span><span class="co">#&gt; [16] 5035 6088 2006 4702 1993 4279 9827 8738 8892 7632 6836 6393 6405   99 3952</span></span>
+<span><span class="co"># OSMAC-L</span></span>
+<span><span class="fu"><a href="reference/subsampling.html">subsampling</a></span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data</span>, n <span class="op">=</span> <span class="fl">30</span>, pilot_n <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"OSMAC_L"</span>, seed_1 <span class="op">=</span> <span class="fl">123</span>, seed_2 <span class="op">=</span> <span class="fl">456</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] 5813 1681 5372 8313 8863 9780 1630 6103 2702 5888 9382 9843 9913 8635 2816</span></span>
+<span><span class="co">#&gt; [16] 5035 6211 2090 4702 2083 4385 9813 8776 8904 4425 6899 1615 6513   99 4076</span></span></code></pre></div>
+<p>You can get more detailed examples from the article column on the <a href="jieyinstat.github.io/dbsubsampling/">website</a>.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
