@@ -9,6 +9,12 @@
   space-filling design, orthogonal array, etc. Provides a unified interface for IBOSS, Lowcon, OSS and 
   other popular methods.">
 <title>Subsampling Methods Based on Experimental Design • dbsubsampling</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -17,6 +23,7 @@
 <meta property="og:description" content="A collection of design-based subsampling methods which inspired by optimal design, 
   space-filling design, orthogonal array, etc. Provides a unified interface for IBOSS, Lowcon, OSS and 
   other popular methods.">
+<meta property="og:image" content="https://jieyinstat.github.io/dbsubsampling/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -48,6 +55,9 @@
     <a class="dropdown-item" href="articles/Subsampling.html">Subsampling</a>
   </div>
 </li>
+<li class="nav-item">
+  <a class="nav-link" href="news/index.html">Changelog</a>
+</li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
@@ -68,8 +78,10 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="dbsubsampling">dbsubsampling<a class="anchor" aria-label="anchor" href="#dbsubsampling"></a>
-</h1></div>
+<div class="page-header">
+<img src="logo.png" class="logo" alt=""><h1 id="dbsubsampling">dbsubsampling<a class="anchor" aria-label="anchor" href="#dbsubsampling"></a>
+</h1>
+</div>
 <!-- badges: start -->
 
 <p>The goal of dbsubsampling is to provides a unified interface for IBOSS, Lowcon, OSS and other popular design-based subsampling methods.</p>
@@ -90,19 +102,16 @@
 <span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data_binary_class</span></span>
 <span><span class="co"># Uniform sampling</span></span>
-<span><span class="fu"><a href="reference/subsampling.html">subsampling</a></span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data</span>, n <span class="op">=</span> <span class="fl">30</span>, method <span class="op">=</span> <span class="st">"Unif"</span>, seed_1 <span class="op">=</span> <span class="fl">123</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] 2463 2511 8718 2986 1842 9334 3371 4761 6746 9819 2757 5107 9145 9209 2888</span></span>
-<span><span class="co">#&gt; [16] 6170 2567 9642 9982 2980 1614  555 4469 9359 7789 9991 9097 1047 7067 3004</span></span>
+<span><span class="fu"><a href="reference/subsampling.html">subsampling</a></span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data</span>, n <span class="op">=</span> <span class="fl">10</span>, method <span class="op">=</span> <span class="st">"Unif"</span>, seed_1 <span class="op">=</span> <span class="fl">123</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] 2463 2511 8718 2986 1842 9334 3371 4761 6746 9819</span></span>
 <span><span class="co"># OSMAC-A</span></span>
-<span><span class="fu"><a href="reference/subsampling.html">subsampling</a></span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data</span>, n <span class="op">=</span> <span class="fl">30</span>, pilot_n <span class="op">=</span> <span class="fl">100</span>,</span>
+<span><span class="fu"><a href="reference/subsampling.html">subsampling</a></span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data</span>, n <span class="op">=</span> <span class="fl">10</span>, pilot_n <span class="op">=</span> <span class="fl">100</span>,</span>
 <span>  method <span class="op">=</span> <span class="st">"OSMAC_A"</span>, seed_1 <span class="op">=</span> <span class="fl">123</span>, seed_2 <span class="op">=</span> <span class="fl">456</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] 5684 1620 5372 8297 8863 9783 6483 6103 2702 5735 9382   40 9919 8623 2816</span></span>
-<span><span class="co">#&gt; [16] 5035 6088 2006 4702 1993 4279 9827 8738 8892 7632 6836 6393 6405   99 3952</span></span>
+<span><span class="co">#&gt;  [1] 5684 1620 5372 8297 8863 9783 6483 6103 2702 5735</span></span>
 <span><span class="co"># OSMAC-L</span></span>
-<span><span class="fu"><a href="reference/subsampling.html">subsampling</a></span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data</span>, n <span class="op">=</span> <span class="fl">30</span>, pilot_n <span class="op">=</span> <span class="fl">100</span>,</span>
+<span><span class="fu"><a href="reference/subsampling.html">subsampling</a></span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data</span>, n <span class="op">=</span> <span class="fl">10</span>, pilot_n <span class="op">=</span> <span class="fl">100</span>,</span>
 <span>  method <span class="op">=</span> <span class="st">"OSMAC_L"</span>, seed_1 <span class="op">=</span> <span class="fl">123</span>, seed_2 <span class="op">=</span> <span class="fl">456</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] 5813 1681 5372 8313 8863 9780 1630 6103 2702 5888 9382 9843 9913 8635 2816</span></span>
-<span><span class="co">#&gt; [16] 5035 6211 2090 4702 2083 4385 9813 8776 8904 4425 6899 1615 6513   99 4076</span></span></code></pre></div>
+<span><span class="co">#&gt;  [1] 5813 1681 5372 8313 8863 9780 1630 6103 2702 5888</span></span></code></pre></div>
 <p>You can get more detailed examples from the article column on the <a href="jieyinstat.github.io/dbsubsampling/">website</a>.</p>
 </div>
 </div>
