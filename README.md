@@ -31,19 +31,16 @@ library(dbsubsampling)
 
 data <- data_binary_class
 # Uniform sampling
-subsampling(y_name = "y", data = data, n = 30, method = "Unif", seed_1 = 123)
-#>  [1] 2463 2511 8718 2986 1842 9334 3371 4761 6746 9819 2757 5107 9145 9209 2888
-#> [16] 6170 2567 9642 9982 2980 1614  555 4469 9359 7789 9991 9097 1047 7067 3004
+subsampling(y_name = "y", data = data, n = 10, method = "Unif", seed_1 = 123)
+#>  [1] 2463 2511 8718 2986 1842 9334 3371 4761 6746 9819
 # OSMAC-A
-subsampling(y_name = "y", data = data, n = 30, pilot_n = 100,
+subsampling(y_name = "y", data = data, n = 10, pilot_n = 100,
   method = "OSMAC_A", seed_1 = 123, seed_2 = 456)
-#>  [1] 5684 1620 5372 8297 8863 9783 6483 6103 2702 5735 9382   40 9919 8623 2816
-#> [16] 5035 6088 2006 4702 1993 4279 9827 8738 8892 7632 6836 6393 6405   99 3952
+#>  [1] 5684 1620 5372 8297 8863 9783 6483 6103 2702 5735
 # OSMAC-L
-subsampling(y_name = "y", data = data, n = 30, pilot_n = 100,
+subsampling(y_name = "y", data = data, n = 10, pilot_n = 100,
   method = "OSMAC_L", seed_1 = 123, seed_2 = 456)
-#>  [1] 5813 1681 5372 8313 8863 9780 1630 6103 2702 5888 9382 9843 9913 8635 2816
-#> [16] 5035 6211 2090 4702 2083 4385 9813 8776 8904 4425 6899 1615 6513   99 4076
+#>  [1] 5813 1681 5372 8313 8863 9780 1630 6103 2702 5888
 ```
 
 You can get more detailed examples from the article column on the
