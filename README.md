@@ -30,13 +30,16 @@ as uniform sampling and OSMAC:
 library(dbsubsampling)
 
 data <- data_binary_class
+
 # Uniform sampling
 subsampling(y_name = "y", data = data, n = 10, method = "Unif", seed_1 = 123)
 #>  [1] 2463 2511 8718 2986 1842 9334 3371 4761 6746 9819
+
 # OSMAC-A
 subsampling(y_name = "y", data = data, n = 10, pilot_n = 100,
   method = "OSMAC_A", seed_1 = 123, seed_2 = 456)
 #>  [1] 5684 1620 5372 8297 8863 9783 6483 6103 2702 5735
+
 # OSMAC-L
 subsampling(y_name = "y", data = data, n = 10, pilot_n = 100,
   method = "OSMAC_L", seed_1 = 123, seed_2 = 456)
