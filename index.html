@@ -102,13 +102,16 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JieYinStat/dbsubsampling" class="external-link">dbsubsampling</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data_binary_class</span></span>
+<span></span>
 <span><span class="co"># Uniform sampling</span></span>
 <span><span class="fu"><a href="reference/subsampling.html">subsampling</a></span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data</span>, n <span class="op">=</span> <span class="fl">10</span>, method <span class="op">=</span> <span class="st">"Unif"</span>, seed_1 <span class="op">=</span> <span class="fl">123</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  [1] 2463 2511 8718 2986 1842 9334 3371 4761 6746 9819</span></span>
+<span></span>
 <span><span class="co"># OSMAC-A</span></span>
 <span><span class="fu"><a href="reference/subsampling.html">subsampling</a></span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data</span>, n <span class="op">=</span> <span class="fl">10</span>, pilot_n <span class="op">=</span> <span class="fl">100</span>,</span>
 <span>  method <span class="op">=</span> <span class="st">"OSMAC_A"</span>, seed_1 <span class="op">=</span> <span class="fl">123</span>, seed_2 <span class="op">=</span> <span class="fl">456</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  [1] 5684 1620 5372 8297 8863 9783 6483 6103 2702 5735</span></span>
+<span></span>
 <span><span class="co"># OSMAC-L</span></span>
 <span><span class="fu"><a href="reference/subsampling.html">subsampling</a></span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data</span>, n <span class="op">=</span> <span class="fl">10</span>, pilot_n <span class="op">=</span> <span class="fl">100</span>,</span>
 <span>  method <span class="op">=</span> <span class="st">"OSMAC_L"</span>, seed_1 <span class="op">=</span> <span class="fl">123</span>, seed_2 <span class="op">=</span> <span class="fl">456</span><span class="op">)</span></span>
