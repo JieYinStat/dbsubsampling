@@ -1,0 +1,54 @@
+---
+title: "Subsampling"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Subsampling}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+You can get your subsample based various design-based methods, here we give some examples.
+```{r setup}
+library(dbsubsampling)
+```
+
+# Uniform Sampling
+Get random subsample with equal probability.
+```{r unif}
+N <- 1000
+n <- 10
+Unif(N = 1000, n = 10)
+```
+You can set a random seed, this random seed is only valid for this sampling and will not affect the external environment.
+
+```{r unif with seed}
+Unif(N = 1000, n = 10, seed = 123, replace = TRUE)
+```
+
+# OSMAC
+A subsampling method based on A- / L- optimal for logistic regression proposed by [Wang et.al. (2018)](https://www.tandfonline.com/doi/full/10.1080/01621459.2017.1292914)^[HaiYing Wang, Rong Zhu and Ping Ma (2018) *Optimal Subsampling for Large Sample Logistic Regression, Journal of the American Statistical Association, 113:522, 829-844*.].
+
+## A-optimal
+A-optimal minimise the trace of the covariance matrix of the parameter estimates.
+```{r OSMAC-A}
+data <- data_binary_class
+y <- data[["y"]]
+x <- data[-which(names(data) == "y")]
+
+OSMAC(X = x, Y = y, r1 = 100, r2 = 5, method="mmse", seed_1 = 123, seed_2 = 456)
+```
+
+## L-optimal
+L-optimal minimise the trace of the covariance matrix of the linear combination of parameter estimates.
+```{r OSMAC-L}
+OSMAC(X = x, Y = y, r1 = 100, r2 = 5, method="mvc", seed_1 = 123, seed_2 = 456)
+```
+
+**We're working on more features，such as subsampling based on OSS, Lowcon, support point, etc. **

@@ -13,7 +13,9 @@ RoxygenNote: 7.2.3
 URL: https://github.com/JieYinStat/dbsubsampling, https://jieyinstat.github.io/dbsubsampling/
 BugReports: https://github.com/JieYinStat/dbsubsampling/issues
 Suggests: 
+    knitr,
     mvtnorm,
+    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Imports: 
@@ -21,3 +23,4 @@ Imports:
 Depends: 
     R (>= 2.10)
 LazyData: true
+VignetteBuilder: knitr

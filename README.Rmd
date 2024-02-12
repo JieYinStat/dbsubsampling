@@ -33,11 +33,20 @@ devtools::install_github("JieYinStat/dbsubsampling")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example which shows you how to get subsample index, such as uniform sampling and OSMAC:
 
 ```{r example}
 library(dbsubsampling)
-## basic example code
+
+data <- data_binary_class
+# Uniform sampling
+subsampling(y_name = "y", data = data, n = 30, method = "Unif", seed_1 = 123)
+# OSMAC-A
+subsampling(y_name = "y", data = data, n = 30, pilot_n = 100,
+  method = "OSMAC_A", seed_1 = 123, seed_2 = 456)
+# OSMAC-L
+subsampling(y_name = "y", data = data, n = 30, pilot_n = 100,
+  method = "OSMAC_L", seed_1 = 123, seed_2 = 456)
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+You can get more detailed examples from the article column on the [website](jieyinstat.github.io/dbsubsampling/).
