@@ -1,6 +1,6 @@
 Package: dbsubsampling
 Title: Subsampling Methods Based on Experimental Design
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Authors@R: 
     person("Jie", "Yin", , "yjabcdhot@hotmail.com", role = c("aut", "cre"))
 Description: A collection of design-based subsampling methods which inspired by optimal design, 
