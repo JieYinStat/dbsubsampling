@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# dbsubsampling
+# dbsubsampling <a href="https://jieyinstat.github.io/dbsubsampling/"><img src="man/figures/logo.png" align="right" height="139" alt="dbsubsampling website" /></a>
 
 <!-- badges: start -->
 
