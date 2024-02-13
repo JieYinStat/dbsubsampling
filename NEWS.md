@@ -1,4 +1,4 @@
-# dbsubsampling (development version)
+# dbsubsampling 0.0.1
 
 * Implement more methods. Begin with IBOSS.
 
