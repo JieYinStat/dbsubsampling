@@ -26,7 +26,8 @@ N <- 1000
 n <- 10
 Unif(N = 1000, n = 10)
 ```
-You can set a random seed, this random seed is only valid for this sampling and will not affect the external environment.
+You can set a random seed, this random seed is only valid for this sampling and will not affect the external environment. The parameter `replace` default `TURE` means the sampling is with replacement, you can set it 
+`FALSE` to implement sampling without replacement.
 
 ```{r unif with seed}
 Unif(N = 1000, n = 10, seed = 123, replace = TRUE)
@@ -38,17 +39,44 @@ A subsampling method based on A- / L- optimal for logistic regression proposed b
 ## A-optimal
 A-optimal minimise the trace of the covariance matrix of the parameter estimates.
 ```{r OSMAC-A}
-data <- data_binary_class
-y <- data[["y"]]
-x <- data[-which(names(data) == "y")]
+data_binary <- data_binary_class
+y <- data_binary[["y"]]
+x <- data_binary[-which(names(data_binary) == "y")]
 
-OSMAC(X = x, Y = y, r1 = 100, r2 = 5, method="mmse", seed_1 = 123, seed_2 = 456)
+OSMAC(X = x, Y = y, r1 = 100, r2 = 10, method="mmse", seed_1 = 123, seed_2 = 456)
+```
+or you can use a unified interface(recommended):
+```{r}
+subsampling(y_name = "y", data = data_binary, n = 10, pilot_n = 100, method = "OSMAC_A", 
+            seed_1 = 123, seed_2 = 456)
 ```
 
 ## L-optimal
 L-optimal minimise the trace of the covariance matrix of the linear combination of parameter estimates.
 ```{r OSMAC-L}
-OSMAC(X = x, Y = y, r1 = 100, r2 = 5, method="mvc", seed_1 = 123, seed_2 = 456)
+OSMAC(X = x, Y = y, r1 = 100, r2 = 10, method="mvc", seed_1 = 123, seed_2 = 456)
+```
+or you can use a unified interface(recommended):
+```{r}
+subsampling(y_name = "y", data = data_binary, n = 10, pilot_n = 100, method = "OSMAC_L", 
+            seed_1 = 123, seed_2 = 456)
+```
+
+*Tips: for uniform sampling you can use the unified interface such as:*
+```{r}
+subsampling(y_name = "y", data = data_binary, n = 10, method = "Unif", seed_1 = 123)
+```
+
+# IBOSS
+A subsampling method based on D-optimal for linear regression proposed by [Wang et.al. (2019)](https://www.tandfonline.com/doi/full/10.1080/01621459.2017.1408468)^[HaiYing Wang, Min Yang & John Stufken (2019) Information-Based Optimal Subdata Selection for Big Data Linear Regression, Journal of the American Statistical Association, 114:525, 393-405.].
+```{r}
+data_numeric <- data_numeric_regression
+X <- data_numeric[-which(names(data_numeric) == "y")]
+IBOSS(n = 30, X = X)
+```
+or you can use a unified interface(recommended):
+```{r}
+subsampling(y_name = "y", data = data_numeric, n = 30, method = "IBOSS")
 ```
 
 **We're working on more features，such as subsampling based on OSS, Lowcon, support point, etc. **

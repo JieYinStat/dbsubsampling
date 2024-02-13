@@ -19,8 +19,7 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/JieYinStat/dbsubsampling/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/JieYinStat/dbsubsampling/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of dbsubsampling is to provides a unified interface for IBOSS, Lowcon, OSS and 
-  other popular design-based subsampling methods.
+Providing a unified interface for IBOSS, Lowcon, OSS and other popular design-based subsampling methods.
 
 ## Installation
 
@@ -33,23 +32,27 @@ devtools::install_github("JieYinStat/dbsubsampling")
 
 ## Example
 
-This is a basic example which shows you how to get subsample index, such as uniform sampling and OSMAC:
+This is a basic example which shows you how to get subsample index, such as uniform sampling, OSMAC and IBOSS:
 
 ```{r example}
 library(dbsubsampling)
 
-data <- data_binary_class
+data_binary <- data_binary_class
 
 # Uniform sampling
-subsampling(y_name = "y", data = data, n = 10, method = "Unif", seed_1 = 123)
+subsampling(y_name = "y", data = data_binary, n = 10, method = "Unif", seed_1 = 123)
 
 # OSMAC-A
-subsampling(y_name = "y", data = data, n = 10, pilot_n = 100,
-  method = "OSMAC_A", seed_1 = 123, seed_2 = 456)
+subsampling(y_name = "y", data = data_binary, n = 10, pilot_n = 100, method = "OSMAC_A", 
+            seed_1 = 123, seed_2 = 456)
 
 # OSMAC-L
-subsampling(y_name = "y", data = data, n = 10, pilot_n = 100,
-  method = "OSMAC_L", seed_1 = 123, seed_2 = 456)
+subsampling(y_name = "y", data = data_binary, n = 10, pilot_n = 100, method = "OSMAC_L",
+            seed_1 = 123, seed_2 = 456)
+
+# IBOSS
+data_numeric <- data_numeric_regression
+subsampling(y_name = "y", data = data_numeric, n = 30, method = "IBOSS")
 ```
 
 You can get more detailed examples from the article column on the [website](jieyinstat.github.io/dbsubsampling/).

@@ -14,4 +14,41 @@
 #' }
 "data_binary_class"
 
-
+#' An artificial data set for linear regression.
+#'
+#' A data.frame with numeric response and explanatory variables simulated the real life borehole example
+#' of the flow rate of water through a borehole from an upper aquifer to a lower aquifer separated by an
+#' impermeable rock layer.
+#'
+#' @details
+#' The response variable \eqn{\mathcal{Y}}, the flow rate through the borehole in \eqn{m^3 / yr},
+#' is determined by a complex nonlinear function as follows,
+#' \deqn{\mathcal{Y}=\frac{2 \pi T_{\mathrm{u}}\left(H_{\mathrm{u}}-H_{\mathrm{l}}\right)}{\ln \left(r / r_{\mathrm{w}}\right)\left[1+\frac{2 L T_{\mathrm{u}}}{\ln \left(r / r_{\mathrm{w}}\right) r_{\mathrm{w}}^2 K_{\mathrm{w}}^2}+\frac{T_{\mathrm{u}}}{T_1}\right]},}
+#' where the 8 input variables with their usual input ranges are listed as follows:
+#' * \eqn{r_{\mathrm{w}} \in[0.05,0.15]} means the radius of borehole (\eqn{m});
+#' * \eqn{r \in[100,50000]} means the radius of influence (\eqn{m});
+#' * \eqn{T_{\mathrm{u}} \in[63070,115600]} means the transmissivity of upper aquifer(\eqn{\left(\mathrm{m}^2 / \mathrm{yr}\right)});
+#' * \eqn{T_1 \in[63.1,116]} means the transmissivity of lower aquifer(\eqn{\left(m^2 / y r\right)});
+#' * \eqn{H_{\mathrm{u}} \in[990,1110]} means the potentiometric head of upper aquifer(\eqn{m});
+#' * \eqn{H_1 \in [700,820]} means the potentiometric head of lower aquifer (\eqn{m});
+#' * \eqn{L \in[1120,1680]} means the length of borehole (\eqn{m});
+#' * \eqn{K_{\mathrm{w}} \in[9855,12045]} means the hydraulic conductivity of borehole (\eqn{m / y r}).
+#'
+#' The distribution of \eqn{r_{\mathrm{w}}} is the normal distribution\eqn{\mathcal{N}\left(0.10,0.0161812^2\right)},
+#' the distribution of \eqn{r} is the lognormal distribution \eqn{\operatorname{Lognormal}\left(7.71,1.0056^2\right)},
+#' and the distributions of other variables are all continuous uniform distribution on their corresponding domains.
+#'
+#' @format ## `data_numeric_regression`
+#' A data frame with 10000 rows and 9 columns:
+#' \describe{
+#'   \item{\eqn{\mathcal{Y}}}{response variable, flow rate through the borehole.}
+#'   \item{\eqn{r_{\mathrm{w}}}}{the radius of borehole.}
+#'   \item{\eqn{r}}{the radius of influence.}
+#'   \item{\eqn{T_{\mathrm{u}}}}{ the transmissivity of upper aquifer.}
+#'   \item{\eqn{T_1}}{the transmissivity of lower aquifer.}
+#'   \item{\eqn{H_{\mathrm{u}}}}{the potentiometric head of upper aquifer.}
+#'   \item{\eqn{H_1}}{the potentiometric head of lower aquifer.}
+#'   \item{\eqn{L}}{the length of borehole.}
+#'   \item{\eqn{K_{\mathrm{w}}}}{the hydraulic conductivity of borehole.}
+#' }
+"data_numeric_regression"

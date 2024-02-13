@@ -62,7 +62,8 @@ get_Logistic_MLE <- function(x, y, w) {
 #'
 #' @references HaiYing Wang, Rong Zhu and Ping Ma (2018)
 #' \emph{Optimal Subsampling for Large Sample Logistic Regression, Journal of the American
-#' Statistical Association, 113:522, 829-844}, \url{https://www.tandfonline.com/doi/full/10.1080/01621459.2017.1292914},
+#' Statistical Association, 113:522, 829-844},
+#' \url{https://www.tandfonline.com/doi/full/10.1080/01621459.2017.1292914},
 #' \url{https://github.com/Ossifragus/OSMAC}.
 #'
 #' @examples

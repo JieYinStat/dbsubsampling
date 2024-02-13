@@ -34,6 +34,7 @@ Default to all variables except the response variable}
 \item \code{Unif}: Random sampling.
 \item \code{OSMAC_A}: A subsampling method based on A-optimal for logistic regression proposed by Wang et.al. (2018).
 \item \code{OSMAC_L}: A subsampling method based on L-optimal for logistic regression proposed by Wang et.al. (2018).
+\item \code{IBOSS}: A subsampling method based on D-optimal for linear regression proposed by Wang et.al. (2019).
 }}
 
 \item{replace}{A boolean.
@@ -55,10 +56,13 @@ A numeric vector with length \code{n} which represent the subsample index.
 A unified interface for retrieving subsample indexes
 }
 \examples{
-data <- data_binary_class
-subsampling(y_name = "y", data = data, n = 30, method = "Unif", seed_1 = 123)
-subsampling(y_name = "y", data = data, n = 30, pilot_n = 100,
-  method = "OSMAC_A", seed_1 = 123, seed_2 = 456)
-subsampling(y_name = "y", data = data, n = 30, pilot_n = 100,
-  method = "OSMAC_L", seed_1 = 123, seed_2 = 456)
+data_binary <- data_binary_class
+subsampling(y_name = "y", data = data_binary, n = 30, method = "Unif", seed_1 = 123)
+subsampling(y_name = "y", data = data_binary, n = 30, pilot_n = 100, method = "OSMAC_A",
+  seed_1 = 123, seed_2 = 456)
+subsampling(y_name = "y", data = data_binary, n = 30, pilot_n = 100, method = "OSMAC_L",
+  seed_1 = 123, seed_2 = 456)
+
+data_numeric <- data_numeric_regression
+subsampling(y_name = "y", data = data_numeric, n = 100, method = "IBOSS")
 }
