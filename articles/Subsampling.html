@@ -99,9 +99,12 @@ we give some examples.</p>
 <code class="sourceCode R"><span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span>
 <span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
 <span><span class="fu"><a href="../reference/Unif.html">Unif</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">1000</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] 284 877 690 684 397  18 895 569 629 752</span></span></code></pre></div>
+<span><span class="co">#&gt;  [1] 360 606 884 549 157 246 943 688 861 792</span></span></code></pre></div>
 <p>You can set a random seed, this random seed is only valid for this
-sampling and will not affect the external environment.</p>
+sampling and will not affect the external environment. The parameter
+<code>replace</code> default <code>TURE</code> means the sampling is
+with replacement, you can set it <code>FALSE</code> to implement
+sampling without replacement.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Unif.html">Unif</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">1000</span>, n <span class="op">=</span> <span class="fl">10</span>, seed <span class="op">=</span> <span class="fl">123</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  [1] 415 463 179 526 195 938 818 118 299 229</span></span></code></pre></div>
@@ -120,24 +123,60 @@ American Statistical Association, 113:522, 829-844&lt;/em&gt;.&lt;/p&gt;"><sup>1
 <p>A-optimal minimise the trace of the covariance matrix of the
 parameter estimates.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data_binary_class</span></span>
-<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">[[</span><span class="st">"y"</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">==</span> <span class="st">"y"</span><span class="op">)</span><span class="op">]</span></span>
+<code class="sourceCode R"><span><span class="va">data_binary</span> <span class="op">&lt;-</span> <span class="va">data_binary_class</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">data_binary</span><span class="op">[[</span><span class="st">"y"</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">data_binary</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">data_binary</span><span class="op">)</span> <span class="op">==</span> <span class="st">"y"</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/OSMAC.html">OSMAC</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">x</span>, Y <span class="op">=</span> <span class="va">y</span>, r1 <span class="op">=</span> <span class="fl">100</span>, r2 <span class="op">=</span> <span class="fl">5</span>, method<span class="op">=</span><span class="st">"mmse"</span>, seed_1 <span class="op">=</span> <span class="fl">123</span>, seed_2 <span class="op">=</span> <span class="fl">456</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 5684 1620 5372 8297 8863</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/OSMAC.html">OSMAC</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">x</span>, Y <span class="op">=</span> <span class="va">y</span>, r1 <span class="op">=</span> <span class="fl">100</span>, r2 <span class="op">=</span> <span class="fl">10</span>, method<span class="op">=</span><span class="st">"mmse"</span>, seed_1 <span class="op">=</span> <span class="fl">123</span>, seed_2 <span class="op">=</span> <span class="fl">456</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] 5684 1620 5372 8297 8863 9783 6483 6103 2702 5735</span></span></code></pre></div>
+<p>or you can use a unified interface(recommended):</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/subsampling.html">subsampling</a></span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data_binary</span>, n <span class="op">=</span> <span class="fl">10</span>, pilot_n <span class="op">=</span> <span class="fl">100</span>, method <span class="op">=</span> <span class="st">"OSMAC_A"</span>, </span>
+<span>            seed_1 <span class="op">=</span> <span class="fl">123</span>, seed_2 <span class="op">=</span> <span class="fl">456</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] 5684 1620 5372 8297 8863 9783 6483 6103 2702 5735</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="l-optimal">L-optimal<a class="anchor" aria-label="anchor" href="#l-optimal"></a>
 </h3>
 <p>L-optimal minimise the trace of the covariance matrix of the linear
 combination of parameter estimates.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/OSMAC.html">OSMAC</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">x</span>, Y <span class="op">=</span> <span class="va">y</span>, r1 <span class="op">=</span> <span class="fl">100</span>, r2 <span class="op">=</span> <span class="fl">5</span>, method<span class="op">=</span><span class="st">"mvc"</span>, seed_1 <span class="op">=</span> <span class="fl">123</span>, seed_2 <span class="op">=</span> <span class="fl">456</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 5813 1681 5372 8313 8863</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/OSMAC.html">OSMAC</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">x</span>, Y <span class="op">=</span> <span class="va">y</span>, r1 <span class="op">=</span> <span class="fl">100</span>, r2 <span class="op">=</span> <span class="fl">10</span>, method<span class="op">=</span><span class="st">"mvc"</span>, seed_1 <span class="op">=</span> <span class="fl">123</span>, seed_2 <span class="op">=</span> <span class="fl">456</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] 5813 1681 5372 8313 8863 9780 1630 6103 2702 5888</span></span></code></pre></div>
+<p>or you can use a unified interface(recommended):</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/subsampling.html">subsampling</a></span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data_binary</span>, n <span class="op">=</span> <span class="fl">10</span>, pilot_n <span class="op">=</span> <span class="fl">100</span>, method <span class="op">=</span> <span class="st">"OSMAC_L"</span>, </span>
+<span>            seed_1 <span class="op">=</span> <span class="fl">123</span>, seed_2 <span class="op">=</span> <span class="fl">456</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] 5813 1681 5372 8313 8863 9780 1630 6103 2702 5888</span></span></code></pre></div>
+<p><em>Tips: for uniform sampling you can use the unified interface such
+as:</em></p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/subsampling.html">subsampling</a></span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data_binary</span>, n <span class="op">=</span> <span class="fl">10</span>, method <span class="op">=</span> <span class="st">"Unif"</span>, seed_1 <span class="op">=</span> <span class="fl">123</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] 2463 2511 8718 2986 1842 9334 3371 4761 6746 9819</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="iboss">IBOSS<a class="anchor" aria-label="anchor" href="#iboss"></a>
+</h2>
+<p>A subsampling method based on D-optimal for linear regression
+proposed by <a href="https://www.tandfonline.com/doi/full/10.1080/01621459.2017.1408468" class="external-link">Wang
+et.al. (2019)</a><a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;HaiYing Wang, Min Yang &amp;amp; John Stufken (2019)
+Information-Based Optimal Subdata Selection for Big Data Linear
+Regression, Journal of the American Statistical Association, 114:525,
+393-405.&lt;/p&gt;"><sup>2</sup></a>.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data_numeric</span> <span class="op">&lt;-</span> <span class="va">data_numeric_regression</span></span>
+<span><span class="va">X</span> <span class="op">&lt;-</span> <span class="va">data_numeric</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">data_numeric</span><span class="op">)</span> <span class="op">==</span> <span class="st">"y"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="fu"><a href="../reference/IBOSS.html">IBOSS</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">30</span>, X <span class="op">=</span> <span class="va">X</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1]  419 1144 3395 3484 3896 5121 6203 7915 7967 8026 8156 8694 8841 9117 8438</span></span>
+<span><span class="co">#&gt; [16] 3121</span></span></code></pre></div>
+<p>or you can use a unified interface(recommended):</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/subsampling.html">subsampling</a></span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data_numeric</span>, n <span class="op">=</span> <span class="fl">30</span>, method <span class="op">=</span> <span class="st">"IBOSS"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1]  419 1144 3395 3484 3896 5121 6203 7915 7967 8026 8156 8694 8841 9117 8438</span></span>
+<span><span class="co">#&gt; [16] 3121</span></span></code></pre></div>
 <p><strong>We’re working on more features，such as subsampling based on
 OSS, Lowcon, support point, etc. </strong></p>
-</div>
 </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

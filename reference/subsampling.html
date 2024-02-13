@@ -98,6 +98,7 @@ Default to all variables except the response variable</p></dd>
 <dd><p>Subsamling methods:</p><ul><li><p><code>Unif</code>: Random sampling.</p></li>
 <li><p><code>OSMAC_A</code>: A subsampling method based on A-optimal for logistic regression proposed by Wang et.al. (2018).</p></li>
 <li><p><code>OSMAC_L</code>: A subsampling method based on L-optimal for logistic regression proposed by Wang et.al. (2018).</p></li>
+<li><p><code>IBOSS</code>: A subsampling method based on D-optimal for linear regression proposed by Wang et.al. (2019).</p></li>
 </ul></dd>
 
 
@@ -128,18 +129,28 @@ Default to all variables except the response variable</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data_binary_class</span></span></span>
-<span class="r-in"><span><span class="fu">subsampling</span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data</span>, n <span class="op">=</span> <span class="fl">30</span>, method <span class="op">=</span> <span class="st">"Unif"</span>, seed_1 <span class="op">=</span> <span class="fl">123</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">data_binary</span> <span class="op">&lt;-</span> <span class="va">data_binary_class</span></span></span>
+<span class="r-in"><span><span class="fu">subsampling</span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data_binary</span>, n <span class="op">=</span> <span class="fl">30</span>, method <span class="op">=</span> <span class="st">"Unif"</span>, seed_1 <span class="op">=</span> <span class="fl">123</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 2463 2511 8718 2986 1842 9334 3371 4761 6746 9819 2757 5107 9145 9209 2888</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [16] 6170 2567 9642 9982 2980 1614  555 4469 9359 7789 9991 9097 1047 7067 3004</span>
-<span class="r-in"><span><span class="fu">subsampling</span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data</span>, n <span class="op">=</span> <span class="fl">30</span>, pilot_n <span class="op">=</span> <span class="fl">100</span>,</span></span>
-<span class="r-in"><span>  method <span class="op">=</span> <span class="st">"OSMAC_A"</span>, seed_1 <span class="op">=</span> <span class="fl">123</span>, seed_2 <span class="op">=</span> <span class="fl">456</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">subsampling</span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data_binary</span>, n <span class="op">=</span> <span class="fl">30</span>, pilot_n <span class="op">=</span> <span class="fl">100</span>, method <span class="op">=</span> <span class="st">"OSMAC_A"</span>,</span></span>
+<span class="r-in"><span>  seed_1 <span class="op">=</span> <span class="fl">123</span>, seed_2 <span class="op">=</span> <span class="fl">456</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 5684 1620 5372 8297 8863 9783 6483 6103 2702 5735 9382   40 9919 8623 2816</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [16] 5035 6088 2006 4702 1993 4279 9827 8738 8892 7632 6836 6393 6405   99 3952</span>
-<span class="r-in"><span><span class="fu">subsampling</span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data</span>, n <span class="op">=</span> <span class="fl">30</span>, pilot_n <span class="op">=</span> <span class="fl">100</span>,</span></span>
-<span class="r-in"><span>  method <span class="op">=</span> <span class="st">"OSMAC_L"</span>, seed_1 <span class="op">=</span> <span class="fl">123</span>, seed_2 <span class="op">=</span> <span class="fl">456</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">subsampling</span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data_binary</span>, n <span class="op">=</span> <span class="fl">30</span>, pilot_n <span class="op">=</span> <span class="fl">100</span>, method <span class="op">=</span> <span class="st">"OSMAC_L"</span>,</span></span>
+<span class="r-in"><span>  seed_1 <span class="op">=</span> <span class="fl">123</span>, seed_2 <span class="op">=</span> <span class="fl">456</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 5813 1681 5372 8313 8863 9780 1630 6103 2702 5888 9382 9843 9913 8635 2816</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [16] 5035 6211 2090 4702 2083 4385 9813 8776 8904 4425 6899 1615 6513   99 4076</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">data_numeric</span> <span class="op">&lt;-</span> <span class="va">data_numeric_regression</span></span></span>
+<span class="r-in"><span><span class="fu">subsampling</span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data_numeric</span>, n <span class="op">=</span> <span class="fl">100</span>, method <span class="op">=</span> <span class="st">"IBOSS"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  183  226  395  419  584  666  711  758 1027 1144 1324 1445 1940 1946 1978</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16] 2018 2673 2982 3190 3395 3484 3612 3632 3638 3696 3816 3835 3896 3921 4256</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31] 4312 4405 4523 4551 4729 4938 5121 5226 5342 5410 5679 5770 5995 6089 6163</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [46] 6170 6203 6250 6525 6964 6979 7053 7198 7407 7564 7633 7915 7935 7967 7992</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [61] 8026 8088 8106 8156 8161 8267 8306 8501 8503 8521 8534 8694 8805 8841 9117</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [76] 9211 9302 9364 9398 9456 9676 9946 9971 9989 1173 2344 5394 8438 8567 9239</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [91] 1787 2104 2215 3121 7159 9133</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

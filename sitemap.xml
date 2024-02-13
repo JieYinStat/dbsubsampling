@@ -22,6 +22,9 @@
     <loc>https://jieyinstat.github.io/dbsubsampling/news/index.html</loc>
   </url>
   <url>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/IBOSS.html</loc>
+  </url>
+  <url>
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/OSMAC.html</loc>
   </url>
   <url>
@@ -29,6 +32,12 @@
   </url>
   <url>
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/data_binary_class.html</loc>
+  </url>
+  <url>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/data_numeric_regression.html</loc>
+  </url>
+  <url>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/dbsubsampling-package.html</loc>
   </url>
   <url>
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/get_Logistic_MLE.html</loc>
