@@ -32,7 +32,8 @@ devtools::install_github("JieYinStat/dbsubsampling")
 
 ## Example
 
-This is a basic example which shows you how to get subsample index, such as uniform sampling, OSMAC and IBOSS:
+This is a basic example which shows you how to get subsample index, such as uniform sampling, OSMAC, IBOSS and
+OSS:
 
 ```{r example}
 library(dbsubsampling)
@@ -52,7 +53,10 @@ subsampling(y_name = "y", data = data_binary, n = 10, pilot_n = 100, method = "O
 
 # IBOSS
 data_numeric <- data_numeric_regression
-subsampling(y_name = "y", data = data_numeric, n = 30, method = "IBOSS")
+subsampling(y_name = "y", data = data_numeric, n = 100, method = "IBOSS")
+
+# OSS
+subsampling(y_name = "y", data = data_numeric, n = 30, method = "OSS")
 ```
 
 You can get more detailed examples from the article column on the [website](jieyinstat.github.io/dbsubsampling/).

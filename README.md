@@ -24,7 +24,7 @@ devtools::install_github("JieYinStat/dbsubsampling")
 ## Example
 
 This is a basic example which shows you how to get subsample index, such
-as uniform sampling, OSMAC and IBOSS:
+as uniform sampling, OSMAC, IBOSS and OSS:
 
 ``` r
 library(dbsubsampling)
@@ -47,9 +47,19 @@ subsampling(y_name = "y", data = data_binary, n = 10, pilot_n = 100, method = "O
 
 # IBOSS
 data_numeric <- data_numeric_regression
-subsampling(y_name = "y", data = data_numeric, n = 30, method = "IBOSS")
-#>  [1]  419 1144 3395 3484 3896 5121 6203 7915 7967 8026 8156 8694 8841 9117 8438
-#> [16] 3121
+subsampling(y_name = "y", data = data_numeric, n = 100, method = "IBOSS")
+#>  [1]  183  226  395  419  584  666  711  758 1027 1144 1324 1445 1940 1946 1978
+#> [16] 2018 2673 2982 3190 3395 3484 3612 3632 3638 3696 3816 3835 3896 3921 4256
+#> [31] 4312 4405 4523 4551 4729 4938 5121 5226 5342 5410 5679 5770 5995 6089 6163
+#> [46] 6170 6203 6250 6525 6964 6979 7053 7198 7407 7564 7633 7915 7935 7967 7992
+#> [61] 8026 8088 8106 8156 8161 8267 8306 8501 8503 8521 8534 8694 8805 8841 9117
+#> [76] 9211 9302 9364 9398 9456 9676 9946 9971 9989 1173 2344 5394 8438 8567 9239
+#> [91] 1787 2104 2215 3121 7159 9133
+
+# OSS
+subsampling(y_name = "y", data = data_numeric, n = 30, method = "OSS")
+#>  [1] 8841 8961 1902 7512   48 9867 6547 9784 3392 3622 5780 6594 1890 1850 8335
+#> [16] 1254 6204 1257 4611 3831 4782 4919 1579 3404  718 7189 2060 4899  590 1800
 ```
 
 You can get more detailed examples from the article column on the

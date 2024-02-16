@@ -45,7 +45,7 @@ x <- data_binary[-which(names(data_binary) == "y")]
 
 OSMAC(X = x, Y = y, r1 = 100, r2 = 10, method="mmse", seed_1 = 123, seed_2 = 456)
 ```
-or you can use a unified interface(recommended):
+or you can use a unified interface (recommended):
 ```{r}
 subsampling(y_name = "y", data = data_binary, n = 10, pilot_n = 100, method = "OSMAC_A", 
             seed_1 = 123, seed_2 = 456)
@@ -56,7 +56,7 @@ L-optimal minimise the trace of the covariance matrix of the linear combination 
 ```{r OSMAC-L}
 OSMAC(X = x, Y = y, r1 = 100, r2 = 10, method="mvc", seed_1 = 123, seed_2 = 456)
 ```
-or you can use a unified interface(recommended):
+or you can use a unified interface (recommended):
 ```{r}
 subsampling(y_name = "y", data = data_binary, n = 10, pilot_n = 100, method = "OSMAC_L", 
             seed_1 = 123, seed_2 = 456)
@@ -72,11 +72,21 @@ A subsampling method based on D-optimal for linear regression proposed by [Wang 
 ```{r}
 data_numeric <- data_numeric_regression
 X <- data_numeric[-which(names(data_numeric) == "y")]
-IBOSS(n = 30, X = X)
+IBOSS(n = 100, X = X)
 ```
-or you can use a unified interface(recommended):
+or you can use a unified interface (recommended):
 ```{r}
-subsampling(y_name = "y", data = data_numeric, n = 30, method = "IBOSS")
+subsampling(y_name = "y", data = data_numeric, n = 100, method = "IBOSS")
+```
+
+# OSS
+A subsampling method based on Orthogonal Array proposed by [Wang et.al.(2021)](https://projecteuclid.org/journals/annals-of-applied-statistics/volume-15/issue-3/Orthogonal-subsampling-for-big-data-linear-regression/10.1214/21-AOAS1462.short?tab=ArticleLink)^[Lin Wang, Jake Elmstedt, Weng Kee Wong & Hongquan Xu (2021) Orthogonal subsampling for big data linear regression, The Annals of Applied Statistics, 15(3), 1273-1290.].
+```{r}
+OSS(n = 10, X = X)
+```
+or you can use a unified interface (recommended):
+```{r}
+subsampling(y_name = "y", data = data_numeric, n = 10, method = "OSS")
 ```
 
 **We're working on more features，such as subsampling based on OSS, Lowcon, support point, etc. **

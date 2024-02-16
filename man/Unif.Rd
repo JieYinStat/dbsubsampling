@@ -16,8 +16,8 @@ will not affect the external environment}
 
 \item{replace}{A boolean.
 \itemize{
-\item \code{TRUE} (the default): sampling with replace.
-\item \code{FALSE}: sampling without replace
+\item \code{TRUE} (the default): Sampling with replace.
+\item \code{FALSE}: Sampling without replace
 }}
 }
 \value{

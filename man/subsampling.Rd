@@ -35,12 +35,13 @@ Default to all variables except the response variable}
 \item \code{OSMAC_A}: A subsampling method based on A-optimal for logistic regression proposed by Wang et.al. (2018).
 \item \code{OSMAC_L}: A subsampling method based on L-optimal for logistic regression proposed by Wang et.al. (2018).
 \item \code{IBOSS}: A subsampling method based on D-optimal for linear regression proposed by Wang et.al. (2019).
+\item \code{OSS} : A subsampling method based on Orthogonal Array proposed by Wang et.al.(2021).
 }}
 
 \item{replace}{A boolean.
 \itemize{
-\item \code{TRUE} (the default): sampling with replace.
-\item \code{FALSE}: sampling without replace
+\item \code{TRUE} (the default): Sampling with replace.
+\item \code{FALSE}: Sampling without replace
 }}
 
 \item{seed_1}{Random seed for the first stage sampling or Unif.}
@@ -65,4 +66,5 @@ subsampling(y_name = "y", data = data_binary, n = 30, pilot_n = 100, method = "O
 
 data_numeric <- data_numeric_regression
 subsampling(y_name = "y", data = data_numeric, n = 100, method = "IBOSS")
+subsampling(y_name = "y", data = data_numeric, n = 30, method = "OSS")
 }

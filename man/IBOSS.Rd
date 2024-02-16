@@ -7,12 +7,12 @@
 IBOSS(n, X)
 }
 \arguments{
-\item{n}{subsample size.}
+\item{n}{Subsample size.}
 
 \item{X}{A data.frame or matrix consists of explanatory variables.}
 }
 \value{
-subsample index.
+Subsample index.
 }
 \description{
 A subsampling method based on D-optiaml criterion inspired by optimal experimental design

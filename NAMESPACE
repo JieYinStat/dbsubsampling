@@ -2,6 +2,7 @@
 
 export(IBOSS)
 export(OSMAC)
+export(OSS)
 export(Unif)
 export(subsampling)
 importFrom(Rcpp,sourceCpp)

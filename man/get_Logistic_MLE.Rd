@@ -16,9 +16,9 @@ get_Logistic_MLE(x, y, w)
 \value{
 A list.
 \itemize{
-\item \code{par} : parameter estimation.
-\item \code{message} : message during iteration.
-\item \code{iter} : iteration times.
+\item \code{par} : Parameter estimation.
+\item \code{message} : Message during iteration.
+\item \code{iter} : Iteration times.
 }
 }
 \description{

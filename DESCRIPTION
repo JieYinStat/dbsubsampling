@@ -15,6 +15,7 @@ BugReports: https://github.com/JieYinStat/dbsubsampling/issues
 Suggests: 
     knitr,
     mvtnorm,
+    RcppArmadillo,
     rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
@@ -26,4 +27,5 @@ Depends:
 LazyData: true
 VignetteBuilder: knitr
 LinkingTo: 
-    Rcpp
+    Rcpp,
+    RcppArmadillo

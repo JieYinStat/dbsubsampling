@@ -7,9 +7,9 @@
 #' @param w A numeric vector. The weight of each sample.
 #'
 #' @return A list.
-#'  * `par` : parameter estimation.
-#'  * `message` : message during iteration.
-#'  * `iter` : iteration times.
+#'  * `par` : Parameter estimation.
+#'  * `message` : Message during iteration.
+#'  * `iter` : Iteration times.
 get_Logistic_MLE <- function(x, y, w) {
   d <- ncol(x)
   beta <- rep(0, d)

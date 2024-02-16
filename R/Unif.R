@@ -5,8 +5,8 @@
 #' @param N Total sample size.
 #' @param n Subsample size.
 #' @param replace A boolean.
-#'  * `TRUE` (the default): sampling with replace.
-#'  * `FALSE`: sampling without replace
+#'  * `TRUE` (the default): Sampling with replace.
+#'  * `FALSE`: Sampling without replace
 #' @param seed Random seed which is an integer (default NULL). This random seed is only valid for this sampling and
 #'  will not affect the external environment
 #'

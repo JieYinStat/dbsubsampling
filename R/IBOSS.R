@@ -3,10 +3,10 @@
 #' A subsampling method based on D-optiaml criterion inspired by optimal experimental design
 #' used for linear regression.
 #'
-#' @param n subsample size.
+#' @param n Subsample size.
 #' @param X A data.frame or matrix consists of explanatory variables.
 #'
-#' @return subsample index.
+#' @return Subsample index.
 #' @references HaiYing Wang, Min Yang & John Stufken (2019)
 #' \emph{Information-Based Optimal Subdata Selection for Big Data Linear Regression,
 #' Journal of the American Statistical Association, 114:525, 393-405},
