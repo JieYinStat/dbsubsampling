@@ -7,4 +7,11 @@ test_that("IBOSS works", {
                  5995,6089,6163,6170,6203,6250,6525,6964,6979,7053,7198,7407,7564,7633,7915,7935,7967,7992,8026,8088,8106,
                  8156,8161,8267,8306,8501,8503,8521,8534,8694,8805,8841,9117,9211,9302,9364,9398,9456,9676,9946,9971,9989,
                  1173,2344,5394,8438,8567,9239,1787,2104,2215,3121,7159,9133))
+  expect_equal(sort(IBOSS(100,X)), sort(myRcpp_IBOSS(100,X)))
+  expect_equal(sort(IBOSS(100,X)), sort(myR_IBOSS(100,X)))
+  expect_equal(sort(IBOSS(100,X)), sort(myArma_IBOSS(100,X)))
+  expect_error(myR_IBOSS(10,X))
+  expect_error(myArma_IBOSS(10,X))
 })
+
+

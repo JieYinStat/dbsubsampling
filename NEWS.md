@@ -2,7 +2,7 @@
 
 * Implement more methods. Begin with IBOSS.
 
-# dbsubsampling 0.0.1
+# dbsubsampling 0.0.0.9001
 
 * Implement Unif and OSMAC.
 

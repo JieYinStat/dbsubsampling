@@ -13,11 +13,13 @@ RoxygenNote: 7.2.3
 URL: https://github.com/JieYinStat/dbsubsampling, https://jieyinstat.github.io/dbsubsampling/
 BugReports: https://github.com/JieYinStat/dbsubsampling/issues
 Suggests: 
+    ggplot2,
     knitr,
     mvtnorm,
     RcppArmadillo,
     rmarkdown,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    tidyr
 Config/testthat/edition: 3
 Imports: 
     Rcpp,

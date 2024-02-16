@@ -63,4 +63,4 @@ subsampling(y_name = "y", data = data_numeric, n = 30, method = "OSS")
 ```
 
 You can get more detailed examples from the article column on the
-[website](jieyinstat.github.io/dbsubsampling/).
+[website](https://jieyinstat.github.io/dbsubsampling/).

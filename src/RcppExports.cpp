@@ -36,6 +36,30 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcppIBOSS
+IntegerVector rcppIBOSS(NumericMatrix X, int n);
+RcppExport SEXP _dbsubsampling_rcppIBOSS(SEXP XSEXP, SEXP nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcppIBOSS(X, n));
+    return rcpp_result_gen;
+END_RCPP
+}
+// armarcppIBOSS
+arma::uvec armarcppIBOSS(arma::mat X, int n);
+RcppExport SEXP _dbsubsampling_armarcppIBOSS(SEXP XSEXP, SEXP nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type X(XSEXP);
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    rcpp_result_gen = Rcpp::wrap(armarcppIBOSS(X, n));
+    return rcpp_result_gen;
+END_RCPP
+}
 // L2norm
 NumericVector L2norm(NumericMatrix X);
 RcppExport SEXP _dbsubsampling_L2norm(SEXP XSEXP) {
@@ -140,6 +164,8 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_dbsubsampling_getIdxR_cpp", (DL_FUNC) &_dbsubsampling_getIdxR_cpp, 3},
     {"_dbsubsampling_getIdx_cpp", (DL_FUNC) &_dbsubsampling_getIdx_cpp, 2},
+    {"_dbsubsampling_rcppIBOSS", (DL_FUNC) &_dbsubsampling_rcppIBOSS, 2},
+    {"_dbsubsampling_armarcppIBOSS", (DL_FUNC) &_dbsubsampling_armarcppIBOSS, 2},
     {"_dbsubsampling_L2norm", (DL_FUNC) &_dbsubsampling_L2norm, 1},
     {"_dbsubsampling_bottom_t_index", (DL_FUNC) &_dbsubsampling_bottom_t_index, 2},
     {"_dbsubsampling_ComputeLoss", (DL_FUNC) &_dbsubsampling_ComputeLoss, 4},

@@ -1,4 +1,4 @@
-#' Orthogonal subsampling for big data linear regression(OSS)
+#' Orthogonal subsampling for big data linear regression (OSS, Rcpp-version)
 #'
 #' A subsampling method based on orthogonal array for linear model.
 #'
@@ -75,18 +75,18 @@ rbottom_t_index <- function(loss, t){
 }
 
 
-#' OSS (r-version)
+#' OSS (R-version)
 #'
 #' @param n Subsample size.
 #' @param X A matrix.
 #'
 #' @return Subsample index.
-#'
+#' @export
 # @examples
 # data_numeric_regression["y"] <- NULL
 # X <- as.matrix(data_numeric_regression)
-# rOSS(X, 100)
-rOSS <- function(n, X){
+# myR_OSS(X, 100)
+myR_OSS <- function(n, X){
   X <- scale(as.matrix(X))
   attributes(X) <- attributes(X)["dim"]
   N <- nrow(X)
@@ -130,6 +130,21 @@ rOSS <- function(n, X){
   return(index)
 }
 
-
+#' OSS (RcppArmadillo-version)
+#'
+#' @param n Subsample size.
+#' @param X A matrix.
+#'
+#' @return Subsample index.
+#' @export
+# @examples
+# data_numeric_regression["y"] <- NULL
+# X <- as.matrix(data_numeric_regression)
+# myR_OSS(X, 100)
+myArma_OSS <- function(n, X){
+  X <- scale(as.matrix(X))
+  attributes(X) <- attributes(X)["dim"]
+  as.vector(armaOSS(X, n))
+}
 
 
