@@ -7,6 +7,9 @@
     <loc>https://jieyinstat.github.io/dbsubsampling/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://jieyinstat.github.io/dbsubsampling/articles/CompareComputeTime.html</loc>
+  </url>
+  <url>
     <loc>https://jieyinstat.github.io/dbsubsampling/articles/Subsampling.html</loc>
   </url>
   <url>
@@ -52,6 +55,9 @@
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/armabottom_k.html</loc>
   </url>
   <url>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/armarcppIBOSS.html</loc>
+  </url>
+  <url>
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/bottom_t_index.html</loc>
   </url>
   <url>
@@ -76,16 +82,31 @@
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/index.html</loc>
   </url>
   <url>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/myArma_IBOSS.html</loc>
+  </url>
+  <url>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/myArma_OSS.html</loc>
+  </url>
+  <url>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/myR_IBOSS.html</loc>
+  </url>
+  <url>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/myR_OSS.html</loc>
+  </url>
+  <url>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/myRcpp_IBOSS.html</loc>
+  </url>
+  <url>
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/rComputeLoss.html</loc>
   </url>
   <url>
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/rL2norm.html</loc>
   </url>
   <url>
-    <loc>https://jieyinstat.github.io/dbsubsampling/reference/rOSS.html</loc>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/rbottom_t_index.html</loc>
   </url>
   <url>
-    <loc>https://jieyinstat.github.io/dbsubsampling/reference/rbottom_t_index.html</loc>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/rcppIBOSS.html</loc>
   </url>
   <url>
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/rcppOSS.html</loc>
