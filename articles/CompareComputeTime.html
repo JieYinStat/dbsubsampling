@@ -91,8 +91,7 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JieYinStat/dbsubsampling" class="external-link">dbsubsampling</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://mvtnorm.R-forge.R-project.org" class="external-link">mvtnorm</a></span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span></code></pre></div>
 <p>We compare some methods based on <code>R</code>, <code>Rcpp</code>
 and <code>RcppArmadillo</code> by execueted IBOSS and OSS.</p>
 <p>For some tasks C++ have awesome faster execution efficient than base
@@ -101,9 +100,9 @@ algebra &amp; scientific computing) which contains some convenient and
 efficient algorithm.</p>
 <p>For the same task, different implementation methods may bring
 different speeds, and we have made a simple comparison here.</p>
-<p>Generate data:</p>
+<p><strong>Generate data:</strong></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">N</span> <span class="op">&lt;-</span>  <span class="fl">100000</span>; <span class="va">d</span> <span class="op">&lt;-</span>  <span class="fl">7</span></span>
+<code class="sourceCode R"><span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fl">100000</span>; <span class="va">d</span> <span class="op">&lt;-</span> <span class="fl">7</span></span>
 <span><span class="va">sigma_norm</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="va">d</span>, <span class="va">d</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="va">d</span><span class="op">)</span></span>
 <span><span class="va">beta_true</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="va">d</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_seed.html" class="external-link">with_seed</a></span><span class="op">(</span><span class="fl">123</span>, <span class="fu">mvtnorm</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mvtnorm/man/Mvnorm.html" class="external-link">rmvnorm</a></span><span class="op">(</span><span class="va">N</span>, mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">d</span><span class="op">)</span>, sigma <span class="op">=</span> <span class="va">sigma_norm</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -121,14 +120,17 @@ computation efficiency.</p>
 <code>myRcpp_IBOSS</code>: Written by the package itself use
 <code>Rcpp</code> like r style (Vectorization as far as possible).</li>
 <li>
+<code>myRcpp_cstyle_IBOSS</code>: Written by the package itself use
+<code>Rcpp</code> like C++ style (loops for scalar as far as
+possible).</li>
+<li>
 <code>myArma_IBOSS</code>: Written by the package itself use
 <code>RcppArmadillo</code> like r style (Vectorization as far as
 possible).</li>
 <li>
 <code>IBOSS</code>: Quoted from <a href="https://www.tandfonline.com/doi/suppl/10.1080/01621459.2020.1773832?scroll=top" class="external-link">Yu
 et.al.(2022)</a> (core code adapted from <a href="https://github.com/Ossifragus/IBOSS" class="external-link">Wang et.al.(2019)</a>) which
-use Rcpp but core code is C++ style (mainly circulates against
-scalars).</li>
+use Rcpp but core code is C++ style (mainly loops against scalars).</li>
 </ul>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Size</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">200</span>, <span class="fl">500</span>, <span class="fl">750</span>, <span class="fl">1000</span>, <span class="fl">2000</span>, <span class="fl">5000</span>, <span class="fl">7500</span>, <span class="fl">10000</span>,  <span class="fl">15000</span>, <span class="fl">20000</span><span class="op">)</span></span>
@@ -137,15 +139,18 @@ scalars).</li>
 <span><span class="va">time_myR_IBOSS</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">Size</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">time_myRcpp_IBOSS</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">Size</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">time_myArma_IBOSS</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">Size</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">time_myRcpp_cstyle_IBOSS</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">Size</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">Size</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="co"># paste0("Size: ", Size[i])</span></span>
 <span>  <span class="va">begin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span>; <span class="va">index</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/IBOSS.html">IBOSS</a></span><span class="op">(</span><span class="va">Size</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="va">X</span><span class="op">)</span>; <span class="va">time_IBOSS</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">begin</span>;</span>
 <span>  <span class="va">begin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span>; <span class="va">index</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/myR_IBOSS.html">myR_IBOSS</a></span><span class="op">(</span><span class="va">Size</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="va">X</span><span class="op">)</span>; <span class="va">time_myR_IBOSS</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">begin</span>;</span>
 <span>  <span class="va">begin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span>; <span class="va">index</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/myRcpp_IBOSS.html">myRcpp_IBOSS</a></span><span class="op">(</span><span class="va">Size</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="va">X</span><span class="op">)</span>; <span class="va">time_myRcpp_IBOSS</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">begin</span>;</span>
-<span>  <span class="va">begin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span>; <span class="va">index</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/myArma_IBOSS.html">myArma_IBOSS</a></span><span class="op">(</span><span class="va">Size</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="va">X</span><span class="op">)</span>; <span class="va">time_myArma_IBOSS</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">begin</span></span>
+<span>  <span class="va">begin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span>; <span class="va">index</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/myArma_IBOSS.html">myArma_IBOSS</a></span><span class="op">(</span><span class="va">Size</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="va">X</span><span class="op">)</span>; <span class="va">time_myArma_IBOSS</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">begin</span>;</span>
+<span>  <span class="va">begin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span>; <span class="va">index</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/myRcpp_cstyle_IBOSS.html">myRcpp_cstyle_IBOSS</a></span><span class="op">(</span><span class="va">Size</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="va">X</span><span class="op">)</span>; <span class="va">time_myRcpp_cstyle_IBOSS</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">begin</span>;</span>
 <span><span class="op">}</span></span>
 <span></span>
-<span><span class="va">time_IBOSS</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">Size</span>, <span class="va">time_IBOSS</span>, <span class="va">time_myR_IBOSS</span>, <span class="va">time_myRcpp_IBOSS</span>, <span class="va">time_myArma_IBOSS</span><span class="op">)</span></span>
+<span><span class="va">time_IBOSS</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">Size</span>, <span class="va">time_IBOSS</span>, <span class="va">time_myR_IBOSS</span>, <span class="va">time_myRcpp_IBOSS</span>, </span>
+<span>                         <span class="va">time_myArma_IBOSS</span>, <span class="va">time_myRcpp_cstyle_IBOSS</span><span class="op">)</span></span>
 <span><span class="va">time_IBOSS</span> <span class="op">&lt;-</span> <span class="va">time_IBOSS</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="op">-</span><span class="va">Size</span>, names_to <span class="op">=</span> <span class="st">"Method"</span>, values_to <span class="op">=</span> <span class="st">"Time"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">time_IBOSS</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Size</span>, y <span class="op">=</span> <span class="va">Time</span>, group <span class="op">=</span> <span class="va">Method</span>, color <span class="op">=</span> <span class="va">Method</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -159,6 +164,11 @@ significantly, from slow to fast:</p>
 <code>myRcpp_IBOSS</code>: Although Rcpp is used, it does not use
 too many C++ features, mainly vector operations, many steps inside the
 function have not been optimized, and the efficiency is low.</li>
+<li>
+<code>myRcpp_cstyle_IBOSS</code>: Using Rcpp with C++ features,
+heavy use of loops. The efficiency is not high, possibly because there
+are many custom functions inside the function, and the implementation
+method is not efficient enough.</li>
 <li>
 <code>myArma_IBOSS</code>: Despite the use of RcppArmadillo, the
 function interior is still R-style and does not take advantage of C++
@@ -178,11 +188,18 @@ calculation speed is remarkably fast.</li>
 </h2>
 <p><code>OSS</code> used as the user interface for this package, but we
 also write some functions based on different styles to compare the
-computation efficiency. - <code>OSS</code>: Written by the package
-itself use <code>Rcpp</code>. - <code>myR_OSS</code>: Written by the
-package itself use <code>base R</code>. - <code>myArma_OSS</code>:
-Quoted from <a href="https://www.tandfonline.com/doi/suppl/10.1080/10618600.2023.2301093?scroll=top" class="external-link">Zhu
-et.al.(2023)</a> which use RcppArmadillo.</p>
+computation efficiency.</p>
+<ul>
+<li>
+<code>OSS</code>: Written by the package itself use
+<code>Rcpp</code>.</li>
+<li>
+<code>myR_OSS</code>: Written by the package itself use
+<code>base R</code>.</li>
+<li>
+<code>myArma_OSS</code>: Quoted from <a href="https://www.tandfonline.com/doi/suppl/10.1080/10618600.2023.2301093?scroll=top" class="external-link">Zhu
+et.al.(2023)</a> which use RcppArmadillo.</li>
+</ul>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Size</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">200</span>, <span class="fl">500</span>, <span class="fl">750</span>, <span class="fl">1000</span><span class="op">)</span></span>
 <span></span>
@@ -203,17 +220,21 @@ et.al.(2023)</a> which use RcppArmadillo.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="CompareComputeTime_files/figure-html/OSS-1.png" width="700"></p>
 <p>OSS contains a large number of loops on rows and has dynamics vector
-changes. The advantages of C++ are obvious, from slow to fast: -
+changes. The advantages of C++ are obvious, from slow to fast:</p>
+<ul>
+<li>
 <code>myR_OSS</code>: R is not good at looping (memory allocation in
 loops leads to slow speeds) and is not good at handling dynamic vector
-changes. - <code>OSS</code>: Using Rcpp significantly increases speed. -
-<code>myArma_OSS</code>: RcppArmadillo calls C++ Armadillo library, the
-internal algorithm is more efficient, more suitable for large scale
-computing.</p>
-<blockquote>
-<p>It seems that Rcpp has better results, and RcppArmadillo has been
-further optimized.</p>
-</blockquote>
+changes.</li>
+<li>
+<code>OSS</code>: Using Rcpp significantly increases speed.</li>
+<li>
+<code>myArma_OSS</code>: RcppArmadillo calls C++ Armadillo library,
+the internal algorithm is more efficient, more suitable for large scale
+computing.</li>
+</ul>
+<p><strong>It seems that Rcpp has better results, and RcppArmadillo has
+been further optimized.</strong></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

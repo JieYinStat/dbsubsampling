@@ -97,6 +97,9 @@
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/myRcpp_IBOSS.html</loc>
   </url>
   <url>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/myRcpp_cstyle_IBOSS.html</loc>
+  </url>
+  <url>
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/rComputeLoss.html</loc>
   </url>
   <url>
@@ -110,6 +113,9 @@
   </url>
   <url>
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/rcppOSS.html</loc>
+  </url>
+  <url>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/rcpp_cstyle_IBOSS.html</loc>
   </url>
   <url>
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/subsampling.html</loc>
