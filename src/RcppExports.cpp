@@ -36,6 +36,58 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// Append_Index
+std::vector<int> Append_Index(std::vector<int> index, IntegerVector new_index);
+RcppExport SEXP _dbsubsampling_Append_Index(SEXP indexSEXP, SEXP new_indexSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::vector<int> >::type index(indexSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type new_index(new_indexSEXP);
+    rcpp_result_gen = Rcpp::wrap(Append_Index(index, new_index));
+    return rcpp_result_gen;
+END_RCPP
+}
+// GetQuantile
+NumericVector GetQuantile(std::vector<double> temp, int r);
+RcppExport SEXP _dbsubsampling_GetQuantile(SEXP tempSEXP, SEXP rSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::vector<double> >::type temp(tempSEXP);
+    Rcpp::traits::input_parameter< int >::type r(rSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetQuantile(temp, r));
+    return rcpp_result_gen;
+END_RCPP
+}
+// Get_Candi_Quan
+List Get_Candi_Quan(NumericVector x, NumericVector next_x, IntegerVector candi, double lower, double upper, int r);
+RcppExport SEXP _dbsubsampling_Get_Candi_Quan(SEXP xSEXP, SEXP next_xSEXP, SEXP candiSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP rSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type next_x(next_xSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type candi(candiSEXP);
+    Rcpp::traits::input_parameter< double >::type lower(lowerSEXP);
+    Rcpp::traits::input_parameter< double >::type upper(upperSEXP);
+    Rcpp::traits::input_parameter< int >::type r(rSEXP);
+    rcpp_result_gen = Rcpp::wrap(Get_Candi_Quan(x, next_x, candi, lower, upper, r));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_cstyle_IBOSS
+NumericVector rcpp_cstyle_IBOSS(NumericMatrix X, int n);
+RcppExport SEXP _dbsubsampling_rcpp_cstyle_IBOSS(SEXP XSEXP, SEXP nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_cstyle_IBOSS(X, n));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcppIBOSS
 IntegerVector rcppIBOSS(NumericMatrix X, int n);
 RcppExport SEXP _dbsubsampling_rcppIBOSS(SEXP XSEXP, SEXP nSEXP) {
@@ -164,6 +216,10 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_dbsubsampling_getIdxR_cpp", (DL_FUNC) &_dbsubsampling_getIdxR_cpp, 3},
     {"_dbsubsampling_getIdx_cpp", (DL_FUNC) &_dbsubsampling_getIdx_cpp, 2},
+    {"_dbsubsampling_Append_Index", (DL_FUNC) &_dbsubsampling_Append_Index, 2},
+    {"_dbsubsampling_GetQuantile", (DL_FUNC) &_dbsubsampling_GetQuantile, 2},
+    {"_dbsubsampling_Get_Candi_Quan", (DL_FUNC) &_dbsubsampling_Get_Candi_Quan, 6},
+    {"_dbsubsampling_rcpp_cstyle_IBOSS", (DL_FUNC) &_dbsubsampling_rcpp_cstyle_IBOSS, 2},
     {"_dbsubsampling_rcppIBOSS", (DL_FUNC) &_dbsubsampling_rcppIBOSS, 2},
     {"_dbsubsampling_armarcppIBOSS", (DL_FUNC) &_dbsubsampling_armarcppIBOSS, 2},
     {"_dbsubsampling_L2norm", (DL_FUNC) &_dbsubsampling_L2norm, 1},

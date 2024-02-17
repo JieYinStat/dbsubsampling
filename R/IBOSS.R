@@ -1,4 +1,12 @@
-#' Information-Based Optimal Subdata Selection for Big Data Linear Regression (IBOSS, Rcpp-c++-style)
+## ---------------------------------------------------------------------------
+## ---------------------------------------------------------------------------
+##
+## R main function `IBOSS`.  `Rcpp`-C++-style by `Wang`.
+##
+## ---------------------------------------------------------------------------
+## ---------------------------------------------------------------------------
+
+#' Information-Based Optimal Subdata Selection for Big Data Linear Regression (IBOSS, `Rcpp`-c++-style by `Wang`)
 #'
 #' A subsampling method based on D-optiaml criterion inspired by optimal experimental design
 #' used for linear regression.
@@ -30,7 +38,40 @@ IBOSS <- function(n, X) {
   return(idx)
 }
 
-#' IBOSS with `Rcpp` by the package itself.
+
+## ---------------------------------------------------------------------------
+## ---------------------------------------------------------------------------
+##
+## R main function `myRcpp_cstyle_IBOSS`.  `Rcpp`-C++-style by `the package itself`.
+##
+## ---------------------------------------------------------------------------
+## ---------------------------------------------------------------------------
+
+
+#' IBOSS with `Rcpp-C++-style` by `the package itself`.
+#'
+#' @param n Subsample size.
+#' @param X A data.frame or matrix consists of explanatory variables.
+#'
+#' @return Subsample index.
+#' @export
+myRcpp_cstyle_IBOSS <- function(n, X){
+  if (floor(n / 2 / ncol(X)) == 0) stop("Subsample size too small. n/2/ncol(X) must >= 1")
+  X = as.matrix(X)
+  rcpp_cstyle_IBOSS(X, n)
+}
+
+
+## ---------------------------------------------------------------------------
+## ---------------------------------------------------------------------------
+##
+## R main function `myRcpp_IBOSS`.  `Rcpp`-r-style by `the package itself`.
+##
+## ---------------------------------------------------------------------------
+## ---------------------------------------------------------------------------
+
+
+#' IBOSS with `Rcpp`-r-style by `the package itself`.
 #'
 #' @param n Subsample size.
 #' @param X A data.frame or matrix consists of explanatory variables.
@@ -43,6 +84,38 @@ myRcpp_IBOSS <- function(n, X){
   rcppIBOSS(X, n)
 }
 
+
+## ---------------------------------------------------------------------------
+## ---------------------------------------------------------------------------
+##
+## R main function `myArma_IBOSS`.  `RcppArmadillo`-r-style by `the package itself`.
+##
+## ---------------------------------------------------------------------------
+## ---------------------------------------------------------------------------
+
+
+#' IBOSS with `RcppArmadillo`-r-style by `the package itself`.
+#'
+#' @param n Subsample size.
+#' @param X A data.frame or matrix consists of explanatory variables.
+#'
+#' @return Subsample index.
+#' @export
+myArma_IBOSS <- function(n, X){
+  if (floor(n / 2 / ncol(X)) == 0) stop("Subsample size too small. n/2/ncol(X) must >= 1")
+  X = as.matrix(X)
+  armarcppIBOSS(X, n)
+}
+
+
+## ---------------------------------------------------------------------------
+## ---------------------------------------------------------------------------
+##
+## R main function `myR_IBOSS`.  `base-R` by `the package itself`.
+##
+## ---------------------------------------------------------------------------
+## ---------------------------------------------------------------------------
+
 rbottom_r_index <- function(x, r){
   return(which(x <= sort(x)[r]))
 }
@@ -50,7 +123,7 @@ rtop_r_index <- function(x, r){
   return(which(x >= sort(x, decreasing = TRUE)[r]))
 }
 
-#' IBOSS with `base R` by the package itself.
+#' IBOSS with `base R` by `the package itself`.
 #'
 #' @param n Subsample size.
 #' @param X A data.frame or matrix consists of explanatory variables.
@@ -72,17 +145,3 @@ myR_IBOSS <- function(n, X){
   }
   return(index)
 }
-
-#' IBOSS with `RcppArmadillo` by the package itself.
-#'
-#' @param n Subsample size.
-#' @param X A data.frame or matrix consists of explanatory variables.
-#'
-#' @return Subsample index.
-#' @export
-myArma_IBOSS <- function(n, X){
-  if (floor(n / 2 / ncol(X)) == 0) stop("Subsample size too small. n/2/ncol(X) must >= 1")
-  X = as.matrix(X)
-  armarcppIBOSS(X, n)
-}
-

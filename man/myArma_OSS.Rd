@@ -2,7 +2,7 @@
 % Please edit documentation in R/OSS.R
 \name{myArma_OSS}
 \alias{myArma_OSS}
-\title{OSS (RcppArmadillo-version)}
+\title{OSS (\code{RcppArmadillo}-version by \code{Zhu})}
 \usage{
 myArma_OSS(n, X)
 }
@@ -15,5 +15,5 @@ myArma_OSS(n, X)
 Subsample index.
 }
 \description{
-OSS (RcppArmadillo-version)
+OSS (\code{RcppArmadillo}-version by \code{Zhu})
 }

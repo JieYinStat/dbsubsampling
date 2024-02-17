@@ -2,7 +2,7 @@
 % Please edit documentation in R/OSS.R
 \name{OSS}
 \alias{OSS}
-\title{Orthogonal subsampling for big data linear regression (OSS, Rcpp-version)}
+\title{Orthogonal subsampling for big data linear regression (OSS, \code{Rcpp}-version by \verb{the package itself})}
 \usage{
 OSS(n, X)
 }

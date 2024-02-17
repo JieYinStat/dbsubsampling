@@ -2,6 +2,17 @@
 using namespace Rcpp;
 using namespace arma;
 
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+//
+// C++ main function `rcppOSS`
+//
+// R function `OSS` core code, `Rcpp`-version by `the package itself`.
+//
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+
+
 // Scale a matrix
 //
 // @param X A matrix.
@@ -71,7 +82,7 @@ NumericVector ComputeLoss(IntegerVector candi, int last_index, NumericMatrix X, 
   return loss;
 }
 
-//' Rcpp version OSS (`OSS` core code)
+//' OSS `Rcpp`-version by `the package itself` (`OSS` core code)
 //'
 //' @param X A matrix.
 //' @param n Subsample size.
@@ -127,10 +138,6 @@ IntegerVector rcppOSS(NumericMatrix X, int n) {
       loss = loss[remain];
     }
 
-//    if (candi.length() == 0) {
-//      index = index[seq(0,i)];
-//      break;
-//    }
     // Rcout << "After eliminate:" << "\n";
     // Rcout << "length of candi: " << candi.length() << "\n";
     // Rcout << "candi: " << candi << "\n";
@@ -144,8 +151,17 @@ IntegerVector rcppOSS(NumericMatrix X, int n) {
   return index + 1;
 }
 
-#include <RcppArmadillo.h>
-using namespace arma;
+
+
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+//
+// C++ main function `armaOSS`
+//
+// R function `armaOSS` core code, `RcppArmadillo`-version by `Zhu`.
+//
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 //' Find t smallest index of a vector (RcppArmadillo-version)
 //'
@@ -199,7 +215,7 @@ arma::vec armaComputeLoss(arma::mat X, arma::vec xa, arma::mat y, double ya, dou
   return B;
 }
 
-//' OSS (RcppArmadillo-version, `myArma_OSS` core code)
+//' OSS `RcppArmadillo`-version by `Zhu` (`myArma_OSS` core code)
 //' @param x A matrix.
 //' @param k Subsample size.
 //' @param tPow The power of the loss function.

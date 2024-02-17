@@ -1,4 +1,12 @@
-#' Orthogonal subsampling for big data linear regression (OSS, Rcpp-version)
+## ---------------------------------------------------------------------------
+## ---------------------------------------------------------------------------
+##
+## R main function `OSS`.  `Rcpp`-version by `the package itself`.
+##
+## ---------------------------------------------------------------------------
+## ---------------------------------------------------------------------------
+
+#' Orthogonal subsampling for big data linear regression (OSS, `Rcpp`-version by `the package itself`)
 #'
 #' A subsampling method based on orthogonal array for linear model.
 #'
@@ -24,6 +32,40 @@ OSS <- function(n, X){
   subindex <- rcppOSS(X = X, n = n)
   return(subindex)
 }
+
+## ---------------------------------------------------------------------------
+## ---------------------------------------------------------------------------
+##
+## R main function `myArma_OSS`.  `RcppArmadillo`-version by `Zhu`.
+##
+## ---------------------------------------------------------------------------
+## ---------------------------------------------------------------------------
+
+#' OSS (`RcppArmadillo`-version by `Zhu`)
+#'
+#' @param n Subsample size.
+#' @param X A matrix.
+#'
+#' @return Subsample index.
+#' @export
+# @examples
+# data_numeric_regression["y"] <- NULL
+# X <- as.matrix(data_numeric_regression)
+# myR_OSS(X, 100)
+myArma_OSS <- function(n, X){
+  X <- scale(as.matrix(X))
+  attributes(X) <- attributes(X)["dim"]
+  as.vector(armaOSS(X, n))
+}
+
+
+## ---------------------------------------------------------------------------
+## ---------------------------------------------------------------------------
+##
+## R main function `myR_OSS`.  `base-R` by `the package itself`.
+##
+## ---------------------------------------------------------------------------
+## ---------------------------------------------------------------------------
 
 #' Get L2 norm (r-version)
 #'
@@ -75,7 +117,7 @@ rbottom_t_index <- function(loss, t){
 }
 
 
-#' OSS (R-version)
+#' OSS with `base R` by `the package itself`.
 #'
 #' @param n Subsample size.
 #' @param X A matrix.
@@ -119,32 +161,13 @@ myR_OSS <- function(n, X){
       loss <- loss[rbottom_t_index(loss,t)]
     }
 
-#    if (length(candi) == 0) {
-#      index <- index[1:i]
-#      break
-#    }
+    #    if (length(candi) == 0) {
+    #      index <- index[1:i]
+    #      break
+    #    }
     # Update loss
     loss <- loss + rComputeLoss(candi, index[i], X, norm)
   }
 
   return(index)
 }
-
-#' OSS (RcppArmadillo-version)
-#'
-#' @param n Subsample size.
-#' @param X A matrix.
-#'
-#' @return Subsample index.
-#' @export
-# @examples
-# data_numeric_regression["y"] <- NULL
-# X <- as.matrix(data_numeric_regression)
-# myR_OSS(X, 100)
-myArma_OSS <- function(n, X){
-  X <- scale(as.matrix(X))
-  attributes(X) <- attributes(X)["dim"]
-  as.vector(armaOSS(X, n))
-}
-
-

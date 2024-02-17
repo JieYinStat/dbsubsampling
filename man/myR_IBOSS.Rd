@@ -2,7 +2,7 @@
 % Please edit documentation in R/IBOSS.R
 \name{myR_IBOSS}
 \alias{myR_IBOSS}
-\title{IBOSS with \verb{base R} by the package itself.}
+\title{IBOSS with \verb{base R} by \verb{the package itself}.}
 \usage{
 myR_IBOSS(n, X)
 }
@@ -15,5 +15,5 @@ myR_IBOSS(n, X)
 Subsample index.
 }
 \description{
-IBOSS with \verb{base R} by the package itself.
+IBOSS with \verb{base R} by \verb{the package itself}.
 }

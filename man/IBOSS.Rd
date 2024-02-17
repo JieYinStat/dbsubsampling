@@ -2,7 +2,7 @@
 % Please edit documentation in R/IBOSS.R
 \name{IBOSS}
 \alias{IBOSS}
-\title{Information-Based Optimal Subdata Selection for Big Data Linear Regression (IBOSS, Rcpp-c++-style)}
+\title{Information-Based Optimal Subdata Selection for Big Data Linear Regression (IBOSS, \code{Rcpp}-c++-style by \code{Wang})}
 \usage{
 IBOSS(n, X)
 }

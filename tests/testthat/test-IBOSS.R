@@ -10,8 +10,9 @@ test_that("IBOSS works", {
   expect_equal(sort(IBOSS(100,X)), sort(myRcpp_IBOSS(100,X)))
   expect_equal(sort(IBOSS(100,X)), sort(myR_IBOSS(100,X)))
   expect_equal(sort(IBOSS(100,X)), sort(myArma_IBOSS(100,X)))
+  expect_equal(sort(IBOSS(100,X)), sort(myRcpp_cstyle_IBOSS(100,X)))
   expect_error(myR_IBOSS(10,X))
   expect_error(myArma_IBOSS(10,X))
+  expect_error(myRcpp_cstyle_IBOSS(10,X))
 })
-
 

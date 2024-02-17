@@ -2,7 +2,7 @@
 % Please edit documentation in R/OSS.R
 \name{myR_OSS}
 \alias{myR_OSS}
-\title{OSS (R-version)}
+\title{OSS with \verb{base R} by \verb{the package itself}.}
 \usage{
 myR_OSS(n, X)
 }
@@ -15,5 +15,5 @@ myR_OSS(n, X)
 Subsample index.
 }
 \description{
-OSS (R-version)
+OSS with \verb{base R} by \verb{the package itself}.
 }
