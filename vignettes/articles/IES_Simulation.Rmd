@@ -1,0 +1,25 @@
+---
+title: "IES_Simulation"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(dbsubsampling)
+library(pbmcapply)
+```
+
+I'll write a small snippet of code here to check if it works on the github remote server. Mainly because `mclapply` doesn't run on windows, in addition to testing to see if parallel computation is possible and estimating the runtime.
+
+```{r}
+data <- data_IES_Case_1_Train
+start_time <- Sys.time()
+result <- pbmclapply(1:10000, function(x) lm(y ~. , data = data)[["coefficients"]][1], mc.cores = 5)
+print(Sys.time() -  start_time)
+```
+
