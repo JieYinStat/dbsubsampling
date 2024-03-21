@@ -16,10 +16,50 @@ library(parallel)
 
 I'll write a small snippet of code here to check if it works on the github remote server. Mainly because `mclapply` doesn't run on windows, in addition to testing to see if parallel computation is possible and estimating the runtime.
 
-```{r}
+# Nonparallel:
+```{r nonparallel}
 data <- data_IES_Case_1_Train
 start_time <- Sys.time()
-result <- mclapply(1:10000, function(x) lm(y ~. , data = data)[["coefficients"]][1], mc.cores = 5)
+result <- lapply(1:50000, function(x) lm(y ~. , data = data)[["coefficients"]][1])
 print(Sys.time() -  start_time)
 ```
 
+# Parallel with 5 cores:
+```{r parallel_5}
+data <- data_IES_Case_1_Train
+start_time <- Sys.time()
+result <- mclapply(1:50000, function(x) lm(y ~. , data = data)[["coefficients"]][1], mc.cores = 5)
+print(Sys.time() -  start_time)
+```
+
+# Parallel with 8 cores:
+```{r parallel_8}
+data <- data_IES_Case_1_Train
+start_time <- Sys.time()
+result <- mclapply(1:50000, function(x) lm(y ~. , data = data)[["coefficients"]][1], mc.cores = 8)
+print(Sys.time() -  start_time)
+```
+
+# Parallel with 10 cores:
+```{r parallel_10}
+data <- data_IES_Case_1_Train
+start_time <- Sys.time()
+result <- mclapply(1:50000, function(x) lm(y ~. , data = data)[["coefficients"]][1], mc.cores = 10)
+print(Sys.time() -  start_time)
+```
+
+# Parallel with 20 cores:
+```{r parallel_20}
+data <- data_IES_Case_1_Train
+start_time <- Sys.time()
+result <- mclapply(1:50000, function(x) lm(y ~. , data = data)[["coefficients"]][1], mc.cores = 20)
+print(Sys.time() -  start_time)
+```
+
+# Parallel with 30 cores:
+```{r parallel_30}
+data <- data_IES_Case_1_Train
+start_time <- Sys.time()
+result <- mclapply(1:50000, function(x) lm(y ~. , data = data)[["coefficients"]][1], mc.cores = 30)
+print(Sys.time() -  start_time)
+```
