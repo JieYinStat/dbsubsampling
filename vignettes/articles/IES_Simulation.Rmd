@@ -1,5 +1,8 @@
 ---
 title: "IES_Simulation"
+output:
+  html_document:
+    df_print: paged
 ---
 
 ```{r, include = FALSE}
@@ -9,14 +12,23 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r library_package, message=FALSE}
 library(dbsubsampling)
+library(bench)
+library(gam)
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+library(purrr)
 library(parallel)
 ```
 
-I'll write a small snippet of code here to check if it works on the github remote server. Mainly because `mclapply` doesn't run on windows, in addition to testing to see if parallel computation is possible and estimating the runtime.
+# Test the compilation environment.
 
-# Nonparallel:
+Since this brochure is built from a github remote server, let's first test the setup of the server. I'll write a small snippet of code here to check if it works on the github remote server. Mainly because `mclapply` doesn't run on windows, in addition to testing to see if parallel computation is possible and estimating the running time.
+
+- Nonparallel:
+
 ```{r nonparallel}
 data <- data_IES_Case_1_Train
 start_time <- Sys.time()
@@ -24,7 +36,35 @@ result <- lapply(1:50000, function(x) lm(y ~. , data = data)[["coefficients"]][1
 print(Sys.time() -  start_time)
 ```
 
-# Parallel with 5 cores:
+- Parallel with 2 cores:
+
+```{r parallel_2}
+data <- data_IES_Case_1_Train
+start_time <- Sys.time()
+result <- mclapply(1:50000, function(x) lm(y ~. , data = data)[["coefficients"]][1], mc.cores = 2)
+print(Sys.time() -  start_time)
+```
+
+- Parallel with 3 cores:
+
+```{r parallel_3}
+data <- data_IES_Case_1_Train
+start_time <- Sys.time()
+result <- mclapply(1:50000, function(x) lm(y ~. , data = data)[["coefficients"]][1], mc.cores = 3)
+print(Sys.time() -  start_time)
+```
+
+- Parallel with 4 cores:
+
+```{r parallel_4}
+data <- data_IES_Case_1_Train
+start_time <- Sys.time()
+result <- mclapply(1:50000, function(x) lm(y ~. , data = data)[["coefficients"]][1], mc.cores = 4)
+print(Sys.time() -  start_time)
+```
+
+- Parallel with 5 cores:
+
 ```{r parallel_5}
 data <- data_IES_Case_1_Train
 start_time <- Sys.time()
@@ -32,7 +72,8 @@ result <- mclapply(1:50000, function(x) lm(y ~. , data = data)[["coefficients"]]
 print(Sys.time() -  start_time)
 ```
 
-# Parallel with 8 cores:
+- Parallel with 8 cores:
+
 ```{r parallel_8}
 data <- data_IES_Case_1_Train
 start_time <- Sys.time()
@@ -40,26 +81,3 @@ result <- mclapply(1:50000, function(x) lm(y ~. , data = data)[["coefficients"]]
 print(Sys.time() -  start_time)
 ```
 
-# Parallel with 10 cores:
-```{r parallel_10}
-data <- data_IES_Case_1_Train
-start_time <- Sys.time()
-result <- mclapply(1:50000, function(x) lm(y ~. , data = data)[["coefficients"]][1], mc.cores = 10)
-print(Sys.time() -  start_time)
-```
-
-# Parallel with 20 cores:
-```{r parallel_20}
-data <- data_IES_Case_1_Train
-start_time <- Sys.time()
-result <- mclapply(1:50000, function(x) lm(y ~. , data = data)[["coefficients"]][1], mc.cores = 20)
-print(Sys.time() -  start_time)
-```
-
-# Parallel with 30 cores:
-```{r parallel_30}
-data <- data_IES_Case_1_Train
-start_time <- Sys.time()
-result <- mclapply(1:50000, function(x) lm(y ~. , data = data)[["coefficients"]][1], mc.cores = 30)
-print(Sys.time() -  start_time)
-```
