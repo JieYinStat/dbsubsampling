@@ -76,10 +76,6 @@ bench_result <- bench::mark(
 bench_result[c("expression", "min", "median", "mem_alloc", "n_gc")]
 ```
 
-```{r display_benchmark}
-plot(bench_result)
-```
-
 RcppArmadillo greatly improves speed. We use RcppArmadillo in the main function.
 
 ## Addition compare
