@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{armarcppIBOSS}
 \alias{armarcppIBOSS}
-\title{IBOSS with \code{RcppArmadillo} (\code{myArma_IBOSS} core c++ code)}
+\title{IBOSS with \code{RcppArmadillo} by \verb{the package itself} (\code{myArma_IBOSS} core c++ code)}
 \usage{
 armarcppIBOSS(X, n)
 }
@@ -15,5 +15,5 @@ armarcppIBOSS(X, n)
 Subsample index.
 }
 \description{
-IBOSS with \code{RcppArmadillo} (\code{myArma_IBOSS} core c++ code)
+IBOSS with \code{RcppArmadillo} by \verb{the package itself} (\code{myArma_IBOSS} core c++ code)
 }

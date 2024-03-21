@@ -112,6 +112,32 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// armaIES
+arma::uvec armaIES(arma::mat X, int n, int q);
+RcppExport SEXP _dbsubsampling_armaIES(SEXP XSEXP, SEXP nSEXP, SEXP qSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type X(XSEXP);
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    Rcpp::traits::input_parameter< int >::type q(qSEXP);
+    rcpp_result_gen = Rcpp::wrap(armaIES(X, n, q));
+    return rcpp_result_gen;
+END_RCPP
+}
+// armaIES_compare
+arma::uvec armaIES_compare(arma::mat X, int n, int q);
+RcppExport SEXP _dbsubsampling_armaIES_compare(SEXP XSEXP, SEXP nSEXP, SEXP qSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type X(XSEXP);
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    Rcpp::traits::input_parameter< int >::type q(qSEXP);
+    rcpp_result_gen = Rcpp::wrap(armaIES_compare(X, n, q));
+    return rcpp_result_gen;
+END_RCPP
+}
 // L2norm
 NumericVector L2norm(NumericMatrix X);
 RcppExport SEXP _dbsubsampling_L2norm(SEXP XSEXP) {
@@ -222,6 +248,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dbsubsampling_rcpp_cstyle_IBOSS", (DL_FUNC) &_dbsubsampling_rcpp_cstyle_IBOSS, 2},
     {"_dbsubsampling_rcppIBOSS", (DL_FUNC) &_dbsubsampling_rcppIBOSS, 2},
     {"_dbsubsampling_armarcppIBOSS", (DL_FUNC) &_dbsubsampling_armarcppIBOSS, 2},
+    {"_dbsubsampling_armaIES", (DL_FUNC) &_dbsubsampling_armaIES, 3},
+    {"_dbsubsampling_armaIES_compare", (DL_FUNC) &_dbsubsampling_armaIES_compare, 3},
     {"_dbsubsampling_L2norm", (DL_FUNC) &_dbsubsampling_L2norm, 1},
     {"_dbsubsampling_bottom_t_index", (DL_FUNC) &_dbsubsampling_bottom_t_index, 2},
     {"_dbsubsampling_ComputeLoss", (DL_FUNC) &_dbsubsampling_ComputeLoss, 4},

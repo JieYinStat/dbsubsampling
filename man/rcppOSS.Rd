@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{rcppOSS}
 \alias{rcppOSS}
-\title{Rcpp version OSS (\code{OSS} core code)}
+\title{OSS \code{Rcpp}-version by \verb{the package itself} (\code{OSS} core code)}
 \usage{
 rcppOSS(X, n)
 }
@@ -15,5 +15,5 @@ rcppOSS(X, n)
 Subsample index.
 }
 \description{
-Rcpp version OSS (\code{OSS} core code)
+OSS \code{Rcpp}-version by \verb{the package itself} (\code{OSS} core code)
 }

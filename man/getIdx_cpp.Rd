@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{getIdx_cpp}
 \alias{getIdx_cpp}
-\title{Get subsample index of the first column (IBOSS core code, Rcpp-C++-style by Wang)}
+\title{Get subsample index of the first column (IBOSS core code, \code{Rcpp}-C++-style by \code{Wang})}
 \usage{
 getIdx_cpp(r, z)
 }
@@ -15,5 +15,5 @@ getIdx_cpp(r, z)
 Subsample index of the first column.
 }
 \description{
-Get subsample index of the first column (IBOSS core code, Rcpp-C++-style by Wang)
+Get subsample index of the first column (IBOSS core code, \code{Rcpp}-C++-style by \code{Wang})
 }

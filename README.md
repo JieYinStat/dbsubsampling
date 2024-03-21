@@ -24,7 +24,7 @@ devtools::install_github("JieYinStat/dbsubsampling")
 ## Example
 
 This is a basic example which shows you how to get subsample index, such
-as uniform sampling, OSMAC, IBOSS and OSS:
+as uniform sampling, OSMAC, IBOSS, OSS, LowCon and IES:
 
 ``` r
 library(dbsubsampling)
@@ -32,7 +32,7 @@ library(dbsubsampling)
 data_binary <- data_binary_class
 
 # Uniform sampling
-subsampling(y_name = "y", data = data_binary, n = 10, method = "Unif", seed_1 = 123)
+subsampling(y_name = "y", data = data_binary, n = 10, method = "Unif", seed = 123)
 #>  [1] 2463 2511 8718 2986 1842 9334 3371 4761 6746 9819
 
 # OSMAC-A
@@ -60,6 +60,14 @@ subsampling(y_name = "y", data = data_numeric, n = 100, method = "IBOSS")
 subsampling(y_name = "y", data = data_numeric, n = 30, method = "OSS")
 #>  [1] 8841 8961 1902 7512   48 9867 6547 9784 3392 3622 5780 6594 1890 1850 8335
 #> [16] 1254 6204 1257 4611 3831 4782 4919 1579 3404  718 7189 2060 4899  590 1800
+
+# LowCon
+subsampling(y_name = "y", data = data_numeric, n = 10, method = "LowCon", seed = 123, theta = 1)
+#>  [1] 6032 6633 4180 5093 6005 7093 3621 4429 1715 7143
+
+# IES
+subsampling(y_name = "y", data = data_numeric, n = 10, method = "IES", seed = 123, q = 16)
+#>  [1] 2876 7890 4440 9400 9813 2499 4939 8165 2224 4628
 ```
 
 You can get more detailed examples from the article column on the

@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{rcpp_cstyle_IBOSS}
 \alias{rcpp_cstyle_IBOSS}
-\title{IBOSS with \code{Rcpp-C++-style} by myself (\code{myRcpp_cstyle_IBOSS} core c++ code)}
+\title{IBOSS with \code{Rcpp}-C++-style by \verb{the package itself} (\code{myRcpp_cstyle_IBOSS} core c++ code)}
 \usage{
 rcpp_cstyle_IBOSS(X, n)
 }
@@ -15,5 +15,5 @@ rcpp_cstyle_IBOSS(X, n)
 Subsample index.
 }
 \description{
-IBOSS with \code{Rcpp-C++-style} by myself (\code{myRcpp_cstyle_IBOSS} core c++ code)
+IBOSS with \code{Rcpp}-C++-style by \verb{the package itself} (\code{myRcpp_cstyle_IBOSS} core c++ code)
 }

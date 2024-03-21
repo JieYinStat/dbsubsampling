@@ -89,4 +89,25 @@ or you can use a unified interface (recommended):
 subsampling(y_name = "y", data = data_numeric, n = 10, method = "OSS")
 ```
 
-**We're working on more features，such as subsampling based on OSS, Lowcon, support point, etc. **
+
+# LowCon
+A subsampling method based on Space-filling designs proposed by [Meng et.al.(2021)](https://www.tandfonline.com/doi/full/10.1080/10618600.2020.1844215)^[Cheng Meng, Rui Xie, Abhyuday Mandal, Xinlian Zhang, Wenxuan Zhong & Ping Ma (2021) LowCon: A Design-based Subsampling Approach in a Misspecified Linear Model, Journal of Computational and Graphical Statistics, 30:3, 694-708.].
+```{r}
+LowCon(X = X, n = 10, theta = 1, seed = 123)
+```
+or you can use a unified interface (recommended):
+```{r}
+subsampling(y_name = "y", data = data_numeric, n = 10, method = "LowCon", seed = 123, theta = 1)
+```
+
+# IES
+A subsampling method based on Orthogonal Array proposed by [Zhang et.al.(2024)](https://www.tandfonline.com/doi/full/10.1080/10618600.2024.2326136)^[Yi Zhang, Lin Wang, Xiaoke Zhang & HaiYing Wang (2024) Independence-Encouraging Subsampling for Nonparametric Additive Models, Journal of Computational and Graphical Statistics.].
+```{r}
+IES(X = X, n = 10, q = 16, seed = 123)
+```
+or you can use a unified interface (recommended):
+```{r}
+subsampling(y_name = "y", data = data_numeric, n = 10, method = "IES", seed = 123, q = 16)
+```
+
+**We're working on more features，such as subsampling based on Support point, DDS, etc. **

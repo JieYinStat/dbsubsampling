@@ -12,9 +12,11 @@ subsampling(
   pilot_n = NULL,
   method = "Unif",
   replace = TRUE,
+  seed = NULL,
   seed_1 = NULL,
   seed_2 = NULL,
-  na_method = NULL
+  na_method = NULL,
+  ...
 )
 }
 \arguments{
@@ -36,6 +38,8 @@ Default to all variables except the response variable}
 \item \code{OSMAC_L}: A subsampling method based on L-optimal for logistic regression proposed by Wang et.al. (2018).
 \item \code{IBOSS}: A subsampling method based on D-optimal for linear regression proposed by Wang et.al. (2019).
 \item \code{OSS} : A subsampling method based on Orthogonal Array proposed by Wang et.al.(2021).
+\item \code{LowCon}: A subsampling method based on Space-filling designs proposed by Meng et.al.(2021).
+\item \code{IES}: A subsampling method based on Orthogonal Array proposed by Zhang et.al.(2024).
 }}
 
 \item{replace}{A boolean.
@@ -44,11 +48,19 @@ Default to all variables except the response variable}
 \item \code{FALSE}: Sampling without replace
 }}
 
-\item{seed_1}{Random seed for the first stage sampling or Unif.}
+\item{seed}{Random seed. Default to NULL.}
 
-\item{seed_2}{Random seed for the second stage sampling.}
+\item{seed_1}{Random seed for the first stage sampling (When two-phase subsampling are needed). Default to NULL.}
+
+\item{seed_2}{Random seed for the second stage sampling (When two-phase subsampling are needed). Default to NULL.}
 
 \item{na_method}{Method to handle NA.}
+
+\item{...}{Additional parameters setting for some methods.
+\itemize{
+\item \code{theta}: Percentage of data shrinkage for \code{LowCon}. Default to 1.
+\item \code{q} : Hyperparamter of how to divide the axes for \code{IES}. Default to 16.
+}}
 }
 \value{
 A numeric vector with length \code{n} which represent the subsample index.
@@ -58,7 +70,7 @@ A unified interface for retrieving subsample indexes
 }
 \examples{
 data_binary <- data_binary_class
-subsampling(y_name = "y", data = data_binary, n = 30, method = "Unif", seed_1 = 123)
+subsampling(y_name = "y", data = data_binary, n = 30, method = "Unif", seed = 123)
 subsampling(y_name = "y", data = data_binary, n = 30, pilot_n = 100, method = "OSMAC_A",
   seed_1 = 123, seed_2 = 456)
 subsampling(y_name = "y", data = data_binary, n = 30, pilot_n = 100, method = "OSMAC_L",
@@ -67,4 +79,6 @@ subsampling(y_name = "y", data = data_binary, n = 30, pilot_n = 100, method = "O
 data_numeric <- data_numeric_regression
 subsampling(y_name = "y", data = data_numeric, n = 100, method = "IBOSS")
 subsampling(y_name = "y", data = data_numeric, n = 30, method = "OSS")
+subsampling(y_name = "y", data = data_numeric, n = 10, method = "LowCon", seed = 123, theta = 1)
+subsampling(y_name = "y", data = data_numeric, n = 10, method = "IES", seed = 123, q = 16)
 }

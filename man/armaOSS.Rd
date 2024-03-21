@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{armaOSS}
 \alias{armaOSS}
-\title{OSS (RcppArmadillo-version, \code{myArma_OSS} core code)}
+\title{OSS \code{RcppArmadillo}-version by \code{Zhu} (\code{myArma_OSS} core code)}
 \usage{
 armaOSS(x, k, tPow = 2)
 }
@@ -17,5 +17,5 @@ armaOSS(x, k, tPow = 2)
 Subsample index.
 }
 \description{
-OSS (RcppArmadillo-version, \code{myArma_OSS} core code)
+OSS \code{RcppArmadillo}-version by \code{Zhu} (\code{myArma_OSS} core code)
 }
