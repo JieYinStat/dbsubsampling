@@ -92,12 +92,13 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JieYinStat/dbsubsampling" class="external-link">dbsubsampling</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bench.r-lib.org/" class="external-link">bench</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">parallel</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">gam</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">parallel</span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="test-the-compilation-environment-">Test the compilation environment.<a class="anchor" aria-label="anchor" href="#test-the-compilation-environment-"></a>
 </h2>
@@ -107,62 +108,618 @@ check if it works on the github remote server. Mainly because
 <code>mclapply</code> doesn’t run on windows, in addition to testing to
 see if parallel computation is possible and estimating the running
 time.</p>
-<ul>
-<li>Nonparallel:</li>
-</ul>
+<div class="section level3">
+<h3 id="nonparallel">Nonparallel:<a class="anchor" aria-label="anchor" href="#nonparallel"></a>
+</h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data_IES_Case_1_Train</span></span>
 <span><span class="va">start_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50000</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span><span class="va">.</span> , data <span class="op">=</span> <span class="va">data</span><span class="op">)</span><span class="op">[[</span><span class="st">"coefficients"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span>  <span class="va">start_time</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Time difference of 1.675391 mins</span></span></code></pre></div>
-<ul>
-<li>Parallel with 2 cores:</li>
-</ul>
+<span><span class="co">#&gt; Time difference of 1.671222 mins</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="parallel-with-2-cores">Parallel with 2 cores:<a class="anchor" aria-label="anchor" href="#parallel-with-2-cores"></a>
+</h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data_IES_Case_1_Train</span></span>
 <span><span class="va">start_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">mclapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50000</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span><span class="va">.</span> , data <span class="op">=</span> <span class="va">data</span><span class="op">)</span><span class="op">[[</span><span class="st">"coefficients"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, mc.cores <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span>  <span class="va">start_time</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Time difference of 53.78738 secs</span></span></code></pre></div>
-<ul>
-<li>Parallel with 3 cores:</li>
-</ul>
+<span><span class="co">#&gt; Time difference of 54.42957 secs</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="parallel-with-5-cores">Parallel with 5 cores:<a class="anchor" aria-label="anchor" href="#parallel-with-5-cores"></a>
+</h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data_IES_Case_1_Train</span></span>
-<span><span class="va">start_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">mclapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50000</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span><span class="va">.</span> , data <span class="op">=</span> <span class="va">data</span><span class="op">)</span><span class="op">[[</span><span class="st">"coefficients"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, mc.cores <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span>  <span class="va">start_time</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Time difference of 48.06042 secs</span></span></code></pre></div>
-<ul>
-<li>Parallel with 4 cores:</li>
-</ul>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data_IES_Case_1_Train</span></span>
-<span><span class="va">start_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">mclapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50000</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span><span class="va">.</span> , data <span class="op">=</span> <span class="va">data</span><span class="op">)</span><span class="op">[[</span><span class="st">"coefficients"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, mc.cores <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span>  <span class="va">start_time</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Time difference of 41.06487 secs</span></span></code></pre></div>
-<ul>
-<li>Parallel with 5 cores:</li>
-</ul>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data_IES_Case_1_Train</span></span>
 <span><span class="va">start_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">mclapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50000</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span><span class="va">.</span> , data <span class="op">=</span> <span class="va">data</span><span class="op">)</span><span class="op">[[</span><span class="st">"coefficients"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, mc.cores <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span>  <span class="va">start_time</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Time difference of 41.46389 secs</span></span></code></pre></div>
+<span><span class="co">#&gt; Time difference of 41.78072 secs</span></span></code></pre></div>
+<p>We don’t know how many cores the remote server can assign us. After
+trying, the remote server did assign us multiple cores, and five cores
+seemed to be the fastest and most locally appropriate number.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="implement-with-r-or-rcpp">Implement with R or Rcpp<a class="anchor" aria-label="anchor" href="#implement-with-r-or-rcpp"></a>
+</h2>
+<div class="section level3">
+<h3 id="seed-setting">Seed Setting<a class="anchor" aria-label="anchor" href="#seed-setting"></a>
+</h3>
+<p>IES is not a absolutely deterministic sampling method, pay attention
+to the setting of random seeds.</p>
+</div>
+<div class="section level3">
+<h3 id="compare-running-time">Compare Running Time<a class="anchor" aria-label="anchor" href="#compare-running-time"></a>
+</h3>
+<p>We have some problem in setting random seed between R and C++, so we
+cannot directly check whether the results of R and Rcpp are same. If we
+change all the random steps to pick the first
+element(<code>r_IES_compare</code> and <code>c_IES_compare</code>), we
+get the same result of R and Rcpp, this proves the correctness of the
+codes. We can compare the running time of R and Rcpp (In fact is
+RcppArmadillo):</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">X_compare</span> <span class="op">&lt;-</span> <span class="fu">dbsubsampling</span><span class="fu">::</span><span class="va"><a href="../reference/data_IES_Case_1_Train.html">data_IES_Case_1_Train</a></span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"X1"</span>, <span class="st">"X2"</span>, <span class="st">"X3"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">1000</span>; <span class="va">q</span> <span class="op">&lt;-</span> <span class="fl">16</span>;</span>
+<span></span>
+<span><span class="va">bench_result</span> <span class="op">&lt;-</span> <span class="fu">bench</span><span class="fu">::</span><span class="fu"><a href="http://bench.r-lib.org/reference/mark.html" class="external-link">mark</a></span><span class="op">(</span></span>
+<span>  <span class="fu">dbsubsampling</span><span class="fu">::</span><span class="fu"><a href="../reference/r_IES_compare.html">r_IES_compare</a></span><span class="op">(</span><span class="va">X_compare</span>, <span class="va">n</span>, <span class="va">q</span><span class="op">)</span>,</span>
+<span>  <span class="fu">dbsubsampling</span><span class="fu">::</span><span class="fu"><a href="../reference/c_IES_compare.html">c_IES_compare</a></span><span class="op">(</span><span class="va">X_compare</span>, <span class="va">n</span>, <span class="va">q</span><span class="op">)</span>,</span>
+<span>  iterations <span class="op">=</span> <span class="fl">10</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">bench_result</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"expression"</span>, <span class="st">"min"</span>, <span class="st">"median"</span>, <span class="st">"mem_alloc"</span>, <span class="st">"n_gc"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 4</span></span></span>
+<span><span class="co">#&gt;   expression                                         min   median mem_alloc</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;bch:expr&gt;</span>                                    <span style="color: #949494; font-style: italic;">&lt;bch:tm&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:tm&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:byt&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> dbsubsampling::r_IES_compare(X_compare, n, q)    19.3s    19.6s     1.1GB</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> dbsubsampling::c_IES_compare(X_compare, n, q)  110.4ms  110.9ms    1.52MB</span></span></code></pre></div>
+<p>RcppArmadillo greatly improves speed. We use RcppArmadillo in the
+main function.</p>
+</div>
+<div class="section level3">
+<h3 id="addition-compare">Addition compare<a class="anchor" aria-label="anchor" href="#addition-compare"></a>
+</h3>
+<p>The authors of IES wrote a sampling program in python, and we roughly
+compare:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">reticulate</span><span class="fu">::</span><span class="fu">source_python</span><span class="op">(</span><span class="st">"/Users/jie/Desktop/IES/IES_supp/ies.py"</span><span class="op">)</span></span>
+<span><span class="va">get.lat</span><span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">snew</span><span class="op">=</span><span class="fl">16</span><span class="op">)</span> <span class="op">{</span> </span>
+<span>  <span class="va">s0</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>  <span class="va">lat</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="op">(</span><span class="va">x</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="va">s0</span><span class="op">/</span><span class="va">snew</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">lat</span><span class="op">[</span><span class="va">lat</span><span class="op">==</span><span class="va">snew</span><span class="op">]</span><span class="op">=</span><span class="va">snew</span><span class="op">-</span><span class="fl">1</span></span>
+<span>  <span class="va">lat</span></span>
+<span><span class="op">}</span></span>
+<span><span class="va">py_IES</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">k</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">xl</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">x</span>,<span class="fl">2</span>,<span class="va">get.lat</span><span class="op">)</span></span>
+<span>  <span class="va">n</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>  <span class="va">initial</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">n</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">ies</span><span class="op">=</span><span class="fu">Uclab</span><span class="op">(</span><span class="va">xl</span>,<span class="va">k</span>,ini<span class="op">=</span><span class="va">initial</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">+</span><span class="fl">1</span> </span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">ies</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="fu">py_IES</span><span class="op">(</span><span class="va">X_case1</span>,<span class="va">n</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span>
+<span><span class="co"># user     system   elapsed </span></span>
+<span><span class="co"># 2.506    0.435    2.956</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="fu">c_IES</span><span class="op">(</span><span class="va">X_case1</span>,<span class="va">n</span>,q<span class="op">=</span><span class="fl">16</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># user     system   elapsed </span></span>
+<span><span class="co"># 0.374    0.001    0.376 </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="fu"><a href="../reference/r_IES.html">r_IES</a></span><span class="op">(</span><span class="va">X_case1</span>,<span class="va">n</span>,q<span class="op">=</span><span class="fl">16</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># user     system   elapsed </span></span>
+<span><span class="co"># 77.587   0.665    78.636 </span></span></code></pre></div>
+<p>We can see that python is not as fast as C++, but much faster than R.
+(The reason we simply output the results without running this code is
+because of the complexity of the additional setup required to use python
+programs in a package.)</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="numeric-simulation">Numeric Simulation<a class="anchor" aria-label="anchor" href="#numeric-simulation"></a>
+</h2>
+<div class="section level3">
+<h3 id="data-description">Data Description<a class="anchor" aria-label="anchor" href="#data-description"></a>
+</h3>
+<p>We use functions <span class="math inline">\(m_1\)</span> <span class="math inline">\(m_2\)</span>, and <span class="math inline">\(m_3\)</span> present three component functions.
+<code>gene_data</code> generates data from distributions.
+<code>gene_grid_data</code> generates data from the grid. Concretely,
+the response are generated by: <span class="math display">\[
+y = m(X) + \epsilon,
+\]</span> where <span class="math display">\[
+m(X) = m_1(X_1) + m_2(X_2) + m_3(X_3) = \frac{8}{4 + X_1} +
+\frac{\exp(3-X^2_2)}{4} + 1.5\sin(\frac{\pi}{2}X_3),
+\]</span> and <span class="math inline">\(\epsilon\)</span> follows
+<span class="math inline">\(N(0, \sigma^2)\)</span>, the variance is
+<span class="math inline">\(\sigma^2=0.25\)</span>.</p>
 <ul>
-<li>Parallel with 8 cores:</li>
+<li><p>Case1: (<code>gene_data</code> parameter
+<code>distribute = "normal"</code>) <span class="math inline">\(x\)</span> generates from truncated multivariate
+normal distribution <span class="math inline">\(TN(0, \Sigma, -2,
+2)\)</span> , with mean zero and covariance matrix <span class="math inline">\(\Sigma=(0.3^{\mathbb{1}(i \ne j)})\)</span> , and
+each predictor lies in <span class="math inline">\([-2, 2]\)</span>.
+(use function <code>TruncatedNormal::rtmvnorm.</code> )</p></li>
+<li><p>Case2: (<code>gene_data</code> parameter
+<code>distribute = "exp"</code>) <span class="math inline">\(x\)</span>
+generates from truncated multivariate exponential distribution with same
+covariance matrix in case 1. The marginal distribution is exponential
+distribution with rate 1, and is truncated by 4 and translated to <span class="math inline">\([-2, 2]\)</span>. (use R package
+<code>copula</code> with function <code>ellipCopula</code> and
+<code>rCopula</code>. )</p></li>
+</ul>
+<p>There two test data sets:</p>
+<ul>
+<li><p>Grid: The grid are consist of <span class="math inline">\(10^6\)</span> points with each predictor spanning
+at 100 evenly spaced points in <span class="math inline">\([-1.75,
+1.75]\)</span>.</p></li>
+<li><p>Distribution: random sample with 5000 points generated from the
+same distribution as the full data.</p></li>
 </ul>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data_IES_Case_1_Train</span></span>
-<span><span class="va">start_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">mclapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50000</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span><span class="va">.</span> , data <span class="op">=</span> <span class="va">data</span><span class="op">)</span><span class="op">[[</span><span class="st">"coefficients"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, mc.cores <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span>  <span class="va">start_time</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Time difference of 42.17428 secs</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fl">8</span> <span class="op">/</span> <span class="op">(</span><span class="fl">4</span> <span class="op">+</span> <span class="va">x</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fl">3</span> <span class="op">-</span> <span class="va">x</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">/</span> <span class="fl">4</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">m3</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fl">1.5</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="va">pi</span> <span class="op">/</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">x</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">trans_exp_data</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">density</span>, <span class="va">lower</span>, <span class="va">upper</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">qexp</a></span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">pexp</a></span><span class="op">(</span><span class="va">lower</span><span class="op">)</span> <span class="op">+</span> <span class="va">density</span><span class="op">*</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">pexp</a></span><span class="op">(</span><span class="va">upper</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">pexp</a></span><span class="op">(</span><span class="va">lower</span><span class="op">)</span><span class="op">)</span> <span class="op">)</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">gene_data</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">N</span>, <span class="va">rho</span>, <span class="va">lower</span>, <span class="va">upper</span>, <span class="va">sd</span>, <span class="va">distribute</span> <span class="op">=</span> <span class="st">"normal"</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">cov</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="va">rho</span>, <span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">rho</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="va">distribute</span> <span class="op">==</span> <span class="st">"normal"</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">TruncatedNormal</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/TruncatedNormal/man/rtmvnorm.html" class="external-link">rtmvnorm</a></span><span class="op">(</span><span class="va">N</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">3</span><span class="op">)</span>, <span class="va">cov</span>, lb <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">lower</span>, <span class="fl">3</span><span class="op">)</span>, ub <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">upper</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">}</span> <span class="kw">else</span> <span class="kw">if</span> <span class="op">(</span><span class="va">distribute</span> <span class="op">==</span> <span class="st">"exp"</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">copula_def</span> <span class="op">&lt;-</span> <span class="fu">copula</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/copula/man/ellipCopula.html" class="external-link">ellipCopula</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"normal"</span>, dim <span class="op">=</span> <span class="fl">3</span>, dispstr <span class="op">=</span> <span class="st">"ex"</span>, param <span class="op">=</span> <span class="va">rho</span><span class="op">)</span></span>
+<span>    <span class="va">temp_quan</span> <span class="op">&lt;-</span> <span class="fu">copula</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/copula/man/Copula.html" class="external-link">rCopula</a></span><span class="op">(</span><span class="va">N</span>, <span class="va">copula_def</span><span class="op">)</span></span>
+<span>    <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">temp_quan</span>, <span class="fl">2</span>, <span class="va">trans_exp_data</span>, <span class="fl">0</span>, <span class="op">(</span><span class="va">upper</span><span class="op">-</span><span class="va">lower</span><span class="op">)</span><span class="op">)</span> <span class="op">-</span> <span class="op">(</span><span class="va">upper</span><span class="op">-</span><span class="va">lower</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span></span>
+<span>  <span class="op">}</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"X1"</span>, <span class="st">"X2"</span>, <span class="st">"X3"</span><span class="op">)</span></span>
+<span>  <span class="va">m</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">+</span> <span class="fu">m1</span><span class="op">(</span><span class="va">x</span><span class="op">[</span>, <span class="st">"X1"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span> <span class="fu">m2</span><span class="op">(</span><span class="va">x</span><span class="op">[</span>, <span class="st">"X2"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span> <span class="fu">m3</span><span class="op">(</span><span class="va">x</span><span class="op">[</span>, <span class="st">"X3"</span><span class="op">]</span><span class="op">)</span></span>
+<span>  <span class="va">epi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span>, <span class="fl">0</span>, <span class="va">sd</span><span class="op">)</span></span>
+<span>  <span class="va">y</span> <span class="op">&lt;-</span> <span class="va">m</span> <span class="op">+</span> <span class="va">epi</span></span>
+<span>  <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">x</span>, m <span class="op">=</span> <span class="va">m</span> , y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span>  </span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="va">gene_grid_data</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">lower</span>, <span class="va">upper</span>, <span class="va">one_dim_length</span>, <span class="va">sd</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">one_dim_seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">lower</span>, <span class="va">upper</span>, length.out <span class="op">=</span> <span class="va">one_dim_length</span><span class="op">)</span></span>
+<span>  <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span>X1 <span class="op">=</span> <span class="va">one_dim_seq</span>, X2 <span class="op">=</span> <span class="va">one_dim_seq</span>, X3 <span class="op">=</span> <span class="va">one_dim_seq</span>, KEEP.OUT.ATTRS <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>  <span class="va">m</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">+</span> <span class="fu">m1</span><span class="op">(</span><span class="va">x</span><span class="op">[</span>, <span class="st">"X1"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span> <span class="fu">m2</span><span class="op">(</span><span class="va">x</span><span class="op">[</span>, <span class="st">"X2"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span> <span class="fu">m3</span><span class="op">(</span><span class="va">x</span><span class="op">[</span>, <span class="st">"X3"</span><span class="op">]</span><span class="op">)</span></span>
+<span>  <span class="va">n_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>  <span class="va">epi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n_data</span>, <span class="fl">0</span>, <span class="va">sd</span><span class="op">)</span></span>
+<span>  <span class="va">y</span> <span class="op">&lt;-</span> <span class="va">m</span> <span class="op">+</span> <span class="va">epi</span></span>
+<span>  <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">x</span>, m <span class="op">=</span> <span class="va">m</span> , y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p>We write some auxiliary functions to implement cross validation(CV)
+and get evaluation measures.</p>
+<ul>
+<li>
+<code>ase</code> computes average squared error</li>
+</ul>
+<p><span class="math display">\[
+\text{ASE}= \sum_{x \in \mathcal{X}_{test}} (\hat{m}(x)-m(x))^2 / \left|
+\mathcal{X}_{test} \right|
+\]</span></p>
+<ul>
+<li>
+<code>mee</code> computes maximum estimation error:</li>
+</ul>
+<p><span class="math display">\[
+\text{MEE} = \max_{x \in \mathcal{X}_{test}} \left| \hat{m}(x) - m(x)
+\right|
+\]</span></p>
+<ul>
+<li><p><code>create_folds</code> create folds for CV.</p></li>
+<li>
+<p><code>get_opt_h</code> get the optimal bandwidth (in fact is
+<code>span</code> parameter in function <code><a href="https://rdrr.io/pkg/gam/man/gam.html" class="external-link">gam::gam</a></code>).</p>
+<blockquote>
+<ul>
+<li><p>This is the most time-consuming step in the entire procedure. I
+had try to use <code>apply</code> to substitute <code>for</code> loop in
+<code>get_opt_h</code> , it didn’t lead to significant
+improvements.</p></li>
+<li><p>If <code>handle_outlier=TRUE</code>, find the index of the first
+occurrence of the maximum and minimum values from each predictor, and
+move these data from the test set to the training set.</p></li>
+</ul>
+</blockquote>
+</li>
+<li><p><code>get_result</code> provide a unified surface to get MEE and
+ASE in the two test data sets.</p></li>
+</ul>
+<p>The full data size is <span class="math inline">\(N=10000\)</span>
+with <span class="math inline">\(p=3\)</span> predictors.
+Hyper-parameter is set to <span class="math inline">\(q=16\)</span>. The
+bandwidth is searched in <span class="math inline">\(\{0.05, 0.1, \dots,
+0.95\}\)</span> for every predictor and chosen by five-fold CV. Each
+method are trained on subsamples <span class="math inline">\(n=1000\)</span> , and evaluated on the two test
+sets with size <span class="math inline">\(10^6\)</span> (grid) and 5000
+(distribute).</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fl">10000</span>; <span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">1000</span>; <span class="va">test_distribute_num</span> <span class="op">&lt;-</span> <span class="fl">5000</span>; </span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fl">3</span>; <span class="va">lower</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">2</span>; <span class="va">upper</span> <span class="op">&lt;-</span> <span class="fl">2</span>; <span class="va">rho</span> <span class="op">&lt;-</span> <span class="fl">0.3</span>; <span class="va">sd</span> <span class="op">=</span> <span class="fl">0.5</span>; <span class="va">K</span> <span class="op">&lt;-</span> <span class="fl">5</span>;</span>
+<span><span class="va">one_dim_seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.95</span>, length.out <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">h_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span><span class="va">one_dim_seq</span>, <span class="va">one_dim_seq</span>, <span class="va">one_dim_seq</span>, KEEP.OUT.ATTRS <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p>To save time, We repeat the simulation <span class="math inline">\(S=5\)</span> times.</p>
+<blockquote>
+<ul>
+<li>
+<p>In each simulation we generate new full data and new test
+data.</p>
+<p>Although both IES and LowCon carry randomness (IES due to random
+selection of initial values and LowCon due to the initial space-filling
+design being randomly constructed). However, the randomness is not
+significant, it can be approximated to a deterministic approach, so the
+dataset is considered here to be regenerated each time.</p>
+<p>We tried using the same dataset across simulations and found that
+similar results were obtained, but IES consistently outperforming the
+other methods on MEE and ASE.</p>
+</li>
+<li>
+<p>LowCon need a space-filling design, we may need try to use the
+different initial designs.</p>
+<p>Here for <code>LowCon</code> we used the <code>lhs::randomLHD</code>
+function to generate the space-filling design. The original IES
+simulation used the Sobol sequence to generate the space-filling design
+(<code>spacefillr::generate_sobol_owen_set</code>). Sobol seems better,
+at least need less time implies faster convergence.</p>
+</li>
+</ul>
+</blockquote>
+<p>Here for LowCon we used the <code>randomLHD</code> function to
+generate the space-filling design, the original IES simulation used the
+Sobol sequence to generate the space-filling design. Upon our attempts
+we found that there is little difference in the effectiveness of these
+two initial designs.</p>
+<p>The package <code>pbmcapply</code> which based on
+<code>parallel</code> but provides progress bar to monitor the running
+process. The <code>pbmcapply::pbmclapply</code> function runs in
+<em>forking</em> mode on <strong>5 cores</strong> (<em>forking</em>
+approach only works on POSIX systems (Mac, Linux, Unix, BSD) and not
+Windows).</p>
+<p>We didn’t consider extrapolation in numeric simulation. Although the
+support of the model based on subsamples is smaller, the range of the
+grid test set is set far away from the boundary, and it is unlikely to
+be outside the boundary. The distributed test set is similar to the
+training set, and there are fewer points at the boundary. There won’t be
+a huge error.</p>
 </div>
-  </main>
+<div class="section level3">
+<h3 id="case-1-truncated-normal-distribution">Case 1: Truncated Normal Distribution<a class="anchor" aria-label="anchor" href="#case-1-truncated-normal-distribution"></a>
+</h3>
+<p>We compute the simulation result in case 1 and plot barplots of MEE
+and ASE in the two test datasets based on three subsampling methods:</p>
+<ul>
+<li><p><code>Unif</code>: Random sampling without replacement.</p></li>
+<li><p><code>LowCon</code>: LowCon (<a href="https://www.tandfonline.com/doi/full/10.1080/10618600.2020.1844215" class="external-link">LowCon:
+A Design-based Subsampling Approach in a Misspecified Linear
+Model</a>).</p></li>
+<li><p><code>IES</code>: IES (<a href="https://www.tandfonline.com/doi/full/10.1080/10618600.2024.2326136" class="external-link">Independence-Encouraging
+Subsampling for Nonparametric Additive Models</a>).</p></li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">test_grid</span> <span class="op">&lt;-</span> <span class="fu">gene_grid_data</span><span class="op">(</span>lower <span class="op">=</span> <span class="op">-</span><span class="fl">1.75</span>, upper <span class="op">=</span> <span class="fl">1.75</span>, </span>
+<span>                            one_dim_length <span class="op">=</span> <span class="fl">100</span>, sd <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span></span>
+<span><span class="va">get_combine_result</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">data_train</span> <span class="op">&lt;-</span> <span class="fu">gene_data</span><span class="op">(</span><span class="va">N</span>, <span class="va">rho</span>, <span class="va">lower</span>, <span class="va">upper</span>, <span class="va">sd</span>, <span class="st">"normal"</span><span class="op">)</span></span>
+<span>  <span class="va">test_distribute</span> <span class="op">&lt;-</span> <span class="fu">gene_data</span><span class="op">(</span><span class="va">test_distribute_num</span>, <span class="va">rho</span>, <span class="va">lower</span>, <span class="va">upper</span>, <span class="va">sd</span>, <span class="st">"normal"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu">get_result</span><span class="op">(</span><span class="st">"Unif"</span>, <span class="va">data_train</span>, <span class="va">n</span>, <span class="va">K</span>, <span class="va">h_grid</span>, <span class="va">test_distribute</span>, <span class="va">test_grid</span><span class="op">)</span>,</span>
+<span>        <span class="fu">get_result</span><span class="op">(</span><span class="st">"LowCon"</span>, <span class="va">data_train</span>, <span class="va">n</span>, <span class="va">K</span>, <span class="va">h_grid</span>, <span class="va">test_distribute</span>, <span class="va">test_grid</span><span class="op">)</span>,</span>
+<span>        <span class="fu">get_result</span><span class="op">(</span><span class="st">"IES"</span>, <span class="va">data_train</span>, <span class="va">n</span>, <span class="va">K</span>, <span class="va">h_grid</span>, <span class="va">test_distribute</span>, <span class="va">test_grid</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">Case1_time_start</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">result_case_1</span> <span class="op">&lt;-</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">mclapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="va">get_combine_result</span>, mc.cores <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">Case1_time_start</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Time difference of 19.63527 mins</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="va">result_case_1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="op">!</span><span class="va">Method</span>, <span class="va">as.double</span><span class="op">)</span>,</span>
+<span>         Method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">Method</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="op">!</span><span class="va">Method</span>, names_to <span class="op">=</span> <span class="st">"Measure"</span>, values_to <span class="op">=</span> <span class="st">"Value"</span><span class="op">)</span></span></code></pre></div>
+<div class="section level4">
+<h4 id="distribution-testset">Distribution Testset<a class="anchor" aria-label="anchor" href="#distribution-testset"></a>
+</h4>
+<p>MEE in distribution test set:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">result</span>, <span class="va">Measure</span> <span class="op">==</span> <span class="st">"MEE_distribute"</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Method</span>, y <span class="op">=</span> <span class="va">Value</span>, color <span class="op">=</span> <span class="va">Method</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Case1_MEE_Distribute"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="IES_Simulation_files/figure-html/case1_mee_distribute-1.png" width="700"></p>
+<p>ASE in distribution test set.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">result</span>, <span class="va">Measure</span> <span class="op">==</span> <span class="st">"ASE_distribute"</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Method</span>, y <span class="op">=</span> <span class="va">Value</span>, color <span class="op">=</span> <span class="va">Method</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Case1_ASE_Distribute"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="IES_Simulation_files/figure-html/case1_ase_distribute-1.png" width="700"></p>
+</div>
+<div class="section level4">
+<h4 id="grid-testset">Grid Testset<a class="anchor" aria-label="anchor" href="#grid-testset"></a>
+</h4>
+<p>MEE in grid test set.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">result</span>, <span class="va">Measure</span> <span class="op">==</span> <span class="st">"MEE_grid"</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Method</span>, y <span class="op">=</span> <span class="va">Value</span>, color <span class="op">=</span> <span class="va">Method</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Case1_MEE_Grid"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="IES_Simulation_files/figure-html/case1_mee_grid-1.png" width="700"></p>
+<p>ASE in grid test set.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">result</span>, <span class="va">Measure</span> <span class="op">==</span> <span class="st">"ASE_grid"</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Method</span>, y <span class="op">=</span> <span class="va">Value</span>, color <span class="op">=</span> <span class="va">Method</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Case1_ASE_Grid"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="IES_Simulation_files/figure-html/case1_ase_grid-1.png" width="700"></p>
+<p>We can see that IES performs consistently well on MEE, but slightly
+worse on ASE. This is reasonable given the nature of IES itself.</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="case2-truncated-exponential-distribution">Case2: Truncated Exponential Distribution<a class="anchor" aria-label="anchor" href="#case2-truncated-exponential-distribution"></a>
+</h3>
+<p>We compute the simulation result in case 2 and plot barplots of MEE
+and ASE in the two test datasets based on three subsampling methods.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">get_combine_result</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">data_train</span> <span class="op">&lt;-</span> <span class="fu">gene_data</span><span class="op">(</span><span class="va">N</span>, <span class="va">rho</span>, <span class="va">lower</span>, <span class="va">upper</span>, <span class="va">sd</span>, <span class="st">"exp"</span><span class="op">)</span></span>
+<span>  <span class="va">test_distribute</span> <span class="op">&lt;-</span> <span class="fu">gene_data</span><span class="op">(</span><span class="va">test_distribute_num</span>, <span class="va">rho</span>, <span class="va">lower</span>, <span class="va">upper</span>, <span class="va">sd</span>, <span class="st">"exp"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu">get_result</span><span class="op">(</span><span class="st">"Unif"</span>, <span class="va">data_train</span>, <span class="va">n</span>, <span class="va">K</span>, <span class="va">h_grid</span>, <span class="va">test_distribute</span>, <span class="va">test_grid</span><span class="op">)</span>,</span>
+<span>        <span class="fu">get_result</span><span class="op">(</span><span class="st">"LowCon"</span>, <span class="va">data_train</span>, <span class="va">n</span>, <span class="va">K</span>, <span class="va">h_grid</span>, <span class="va">test_distribute</span>, <span class="va">test_grid</span><span class="op">)</span>,</span>
+<span>        <span class="fu">get_result</span><span class="op">(</span><span class="st">"IES"</span>, <span class="va">data_train</span>, <span class="va">n</span>, <span class="va">K</span>, <span class="va">h_grid</span>, <span class="va">test_distribute</span>, <span class="va">test_grid</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">Case2_time_start</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">result_case_2</span> <span class="op">&lt;-</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">mclapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="va">get_combine_result</span>, mc.cores <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">Case2_time_start</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Time difference of 28.9282 mins</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="va">result_case_2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="op">!</span><span class="va">Method</span>, <span class="va">as.double</span><span class="op">)</span>,</span>
+<span>         Method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">Method</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="op">!</span><span class="va">Method</span>, names_to <span class="op">=</span> <span class="st">"Measure"</span>, values_to <span class="op">=</span> <span class="st">"Value"</span><span class="op">)</span></span></code></pre></div>
+<div class="section level4">
+<h4 id="distribution-testset-1">Distribution Testset<a class="anchor" aria-label="anchor" href="#distribution-testset-1"></a>
+</h4>
+<p>MEE in distribution test set:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">result</span>, <span class="va">Measure</span> <span class="op">==</span> <span class="st">"MEE_distribute"</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Method</span>, y <span class="op">=</span> <span class="va">Value</span>, color <span class="op">=</span> <span class="va">Method</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Case2_MEE_Distribute"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="IES_Simulation_files/figure-html/case2_mee_distribute-1.png" width="700"></p>
+<p>ASE in distribution test set:</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">result</span>, <span class="va">Measure</span> <span class="op">==</span> <span class="st">"ASE_distribute"</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Method</span>, y <span class="op">=</span> <span class="va">Value</span>, color <span class="op">=</span> <span class="va">Method</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Case2_ASE_Distribute"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="IES_Simulation_files/figure-html/case2_ase_distribute-1.png" width="700"></p>
+</div>
+<div class="section level4">
+<h4 id="grid-testset-1">Grid Testset<a class="anchor" aria-label="anchor" href="#grid-testset-1"></a>
+</h4>
+<p>MEE in grid test set.</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">result</span>, <span class="va">Measure</span> <span class="op">==</span> <span class="st">"MEE_grid"</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Method</span>, y <span class="op">=</span> <span class="va">Value</span>, color <span class="op">=</span> <span class="va">Method</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Case2_MEE_Grid"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="IES_Simulation_files/figure-html/case2_mee_grid-1.png" width="700"></p>
+<p>ASE in grid test set.</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">result</span>, <span class="va">Measure</span> <span class="op">==</span> <span class="st">"ASE_grid"</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Method</span>, y <span class="op">=</span> <span class="va">Value</span>, color <span class="op">=</span> <span class="va">Method</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Case2_ASE_Grid"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="IES_Simulation_files/figure-html/case2_ase_grid-1.png" width="700"></p>
+<p>In the Case2 exponential distribution, IES performs consistently well
+on both MEE and ASE. This implies IES performs better in biased
+distribution?</p>
+</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="real-case">Real Case<a class="anchor" aria-label="anchor" href="#real-case"></a>
+</h2>
+<div class="section level3">
+<h3 id="description">Description<a class="anchor" aria-label="anchor" href="#description"></a>
+</h3>
+<p>We use the <code>diaomonds</code> data set in<code>ggplot2</code>
+package. Involving three numeric variables <code>carat</code>,
+<code>depth</code> and <code>table</code> as predictors, set
+<code>price</code> as response and implement <em>log</em> transform to
+<code>carat</code> and <code>price</code>.</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">real_train</span> <span class="op">&lt;-</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="va"><a href="https://ggplot2.tidyverse.org/reference/diamonds.html" class="external-link">diamonds</a></span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">x</span> <span class="op">!=</span><span class="fl">0</span> <span class="op">&amp;</span> <span class="va">y</span> <span class="op">!=</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="va">z</span> <span class="op">!=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">carat</span>, <span class="va">depth</span>, <span class="va">table</span>, y <span class="op">=</span> <span class="va">price</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>carat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">carat</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>We get four models based on the full data and three subsample methods
+(set <span class="math inline">\(n=5000\)</span> ) to observe the
+estimation of the component functions. We still use five-folds cross
+validation to get the optimal bandwidth and the search space is same as
+numerical simulation. Hyper-parameter is stall set to <span class="math inline">\(q=16\)</span>.</p>
+<p>When get the optimal bandwidth, we set the
+<code>handle_outlier=TRUE</code>. This ensures that the boundary of each
+predictor in the training set has a value, otherwise the range of
+application of the model is too small, resulting in poor results. (In
+numeric simulation, we didn’t consider handle outliers)</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">real_train</span><span class="op">)</span>; <span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">5000</span>;</span>
+<span><span class="va">q</span> <span class="op">=</span> <span class="fl">16</span>; <span class="va">K</span> <span class="op">=</span> <span class="fl">5</span>; <span class="va">x_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"carat"</span>, <span class="st">"depth"</span>, <span class="st">"table"</span><span class="op">)</span></span>
+<span><span class="va">one_dim_seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.95</span>, length.out <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">h_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span><span class="va">one_dim_seq</span>, <span class="va">one_dim_seq</span>, <span class="va">one_dim_seq</span>, KEEP.OUT.ATTRS <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">index</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  Full <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">N</span>,</span>
+<span>  Unif <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">N</span>, <span class="va">n</span><span class="op">)</span>,</span>
+<span>  LowCon <span class="op">=</span> <span class="fu">dbsubsampling</span><span class="fu">::</span><span class="fu"><a href="../reference/LowCon.html">LowCon</a></span><span class="op">(</span><span class="va">real_train</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"carat"</span>, <span class="st">"depth"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">]</span>, <span class="va">n</span>, theta<span class="op">=</span><span class="fl">1</span><span class="op">)</span>,</span>
+<span>  IES <span class="op">=</span> <span class="fu">dbsubsampling</span><span class="fu">::</span><span class="fu"><a href="../reference/IES.html">IES</a></span><span class="op">(</span><span class="va">real_train</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"carat"</span>, <span class="st">"depth"</span>, <span class="st">"table"</span><span class="op">)</span><span class="op">]</span>, <span class="va">n</span>, <span class="va">q</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">real_cv_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">h_opt</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">index</span>, </span>
+<span>                    <span class="kw">function</span><span class="op">(</span><span class="va">.index</span><span class="op">)</span> </span>
+<span>                      <span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span></span>
+<span>                        <span class="fu">get_opt_h</span><span class="op">(</span><span class="va">h_grid</span>, <span class="va">real_train</span><span class="op">[</span><span class="va">.index</span>,<span class="op">]</span>, <span class="va">K</span>, </span>
+<span>                                  x_name <span class="op">=</span> <span class="va">x_name</span>, y_name <span class="op">=</span> <span class="st">"y"</span>,</span>
+<span>                                  handle_outlier <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">real_cv_time</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Time difference of 14.74816 mins</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="estimate-component-function">Estimate component function<a class="anchor" aria-label="anchor" href="#estimate-component-function"></a>
+</h3>
+<p>We use <code><a href="https://rdrr.io/pkg/gam/man/predict.gam.html" class="external-link">gam::predict.Gam</a></code> function and set the parameter
+<code>type = "terms"</code> to get the estimation of regression function
+of each predictor. And after obtaining the estimate we centralize each
+regression function.</p>
+<p>Here we use two sets for testing, one with the training set itself as
+the test set, and the other consisting of a grid of three variable
+values. (<span class="math inline">\(50 \times 50 \times 50\)</span>
+points in <span class="math inline">\([-1.6, 1.6] \times [43, 79] \times
+[43, 95]\)</span>)</p>
+<p>Due to the small sample size of the subsample, the model fitted on it
+has a small scope of application, we extrapolated the values outside the
+scope (use termwise nearest neighbor estimation, in fact, is to replace
+the values outside the boundary with the boundary values). Estimates
+outside the boundary are very inaccurate without extrapolation,
+especially for <code>Unif</code> and <code>LowCon</code>
+(<code>IES</code> have wider boundaries due to one-dimensional
+uniformity).</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">get_interval</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">index</span>, <span class="va">x_name</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">x</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">[</span>, <span class="va">x_name</span><span class="op">]</span></span>
+<span>  <span class="va">subdata</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="va">index</span>, <span class="op">]</span></span>
+<span>  <span class="va">interval</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">subdata</span>, <span class="fl">2</span>, <span class="va">range</span><span class="op">)</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">interval</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">extrapolation</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">interval</span>, <span class="va">x_name</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">x</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">[</span>, <span class="va">x_name</span><span class="op">]</span></span>
+<span>  <span class="kw">for</span> <span class="op">(</span><span class="va">j</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">x</span><span class="op">[</span>,<span class="va">j</span><span class="op">]</span><span class="op">[</span><span class="va">x</span><span class="op">[</span>,<span class="va">j</span><span class="op">]</span> <span class="op">&lt;</span> <span class="va">interval</span><span class="op">[</span><span class="fl">1</span>,<span class="va">j</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">interval</span><span class="op">[</span><span class="fl">1</span>,<span class="va">j</span><span class="op">]</span></span>
+<span>    <span class="va">x</span><span class="op">[</span>,<span class="va">j</span><span class="op">]</span><span class="op">[</span><span class="va">x</span><span class="op">[</span>,<span class="va">j</span><span class="op">]</span> <span class="op">&gt;</span> <span class="va">interval</span><span class="op">[</span><span class="fl">2</span>,<span class="va">j</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">interval</span><span class="op">[</span><span class="fl">2</span>,<span class="va">j</span><span class="op">]</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="va">data</span><span class="op">[</span>, <span class="va">x_name</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">x</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">map2</a></span><span class="op">(</span><span class="va">h_opt</span>, <span class="va">index</span>, <span class="kw">function</span><span class="op">(</span><span class="va">.h</span>, <span class="va">.index</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">opt_formula</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html" class="external-link">formula</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> </span>
+<span>                           <span class="fu"><a href="https://rdrr.io/pkg/gam/man/lo.html" class="external-link">lo</a></span><span class="op">(</span><span class="va">carat</span>, span <span class="op">=</span> <span class="va">.h</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, degree <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>                           <span class="fu"><a href="https://rdrr.io/pkg/gam/man/lo.html" class="external-link">lo</a></span><span class="op">(</span><span class="va">depth</span>, span <span class="op">=</span> <span class="va">.h</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, degree <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>                           <span class="fu"><a href="https://rdrr.io/pkg/gam/man/lo.html" class="external-link">lo</a></span><span class="op">(</span><span class="va">table</span>, span <span class="op">=</span> <span class="va">.h</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>, degree <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu">gam</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gam/man/gam.html" class="external-link">gam</a></span><span class="op">(</span><span class="va">opt_formula</span>, data <span class="op">=</span> <span class="va">real_train</span><span class="op">[</span><span class="va">.index</span>,<span class="op">]</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">interval</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">index</span>, <span class="kw">function</span><span class="op">(</span><span class="va">.index</span><span class="op">)</span> </span>
+<span>                                <span class="fu">get_interval</span><span class="op">(</span><span class="va">real_train</span>, <span class="va">.index</span>, <span class="va">x_name</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">extrapolation_ori_data</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">interval</span>, </span>
+<span>                                <span class="kw">function</span><span class="op">(</span><span class="va">.interval</span><span class="op">)</span> </span>
+<span>                                  <span class="fu">extrapolation</span><span class="op">(</span><span class="va">real_train</span>, <span class="va">.interval</span>, <span class="va">x_name</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">predict_ori_data</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">map2</a></span><span class="op">(</span><span class="va">model</span>, <span class="va">extrapolation_ori_data</span>, </span>
+<span>                                <span class="kw">function</span><span class="op">(</span><span class="va">.model</span>, <span class="va">.data</span><span class="op">)</span> </span>
+<span>                                  <span class="fu"><a href="https://rdrr.io/pkg/gam/man/predict.gam.html" class="external-link">predict.Gam</a></span><span class="op">(</span><span class="va">.model</span>, <span class="va">.data</span>, type <span class="op">=</span> <span class="st">"terms"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">real_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span>carat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.6</span>, <span class="fl">1.6</span>, length.out <span class="op">=</span> <span class="fl">50</span><span class="op">)</span>,</span>
+<span>                         depth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">43</span>, <span class="fl">79</span>, length.out <span class="op">=</span> <span class="fl">50</span><span class="op">)</span>,</span>
+<span>                         table <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">43</span>, <span class="fl">95</span>, length.out <span class="op">=</span> <span class="fl">50</span><span class="op">)</span>,</span>
+<span>                         KEEP.OUT.ATTRS <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">extrapolation_grid_data</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">interval</span>, </span>
+<span>                                <span class="kw">function</span><span class="op">(</span><span class="va">.interval</span><span class="op">)</span> </span>
+<span>                                  <span class="fu">extrapolation</span><span class="op">(</span><span class="va">real_grid</span>, <span class="va">.interval</span>, <span class="va">x_name</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">predict_grid_data</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">map2</a></span><span class="op">(</span><span class="va">model</span>, <span class="va">extrapolation_grid_data</span>,</span>
+<span>                                 <span class="kw">function</span><span class="op">(</span><span class="va">.model</span>, <span class="va">.data</span><span class="op">)</span></span>
+<span>                                   <span class="fu"><a href="https://rdrr.io/pkg/gam/man/predict.gam.html" class="external-link">predict.Gam</a></span><span class="op">(</span><span class="va">.model</span>, <span class="va">.data</span>, type <span class="op">=</span> <span class="st">"terms"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ori_predict</span> <span class="op">&lt;-</span> <span class="va">predict_ori_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">scale</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">as.data.frame</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">rename</span>, y_carat <span class="op">=</span> <span class="st">"lo(carat, span = .h[1], degree = 1)"</span>,</span>
+<span>                     y_depth <span class="op">=</span> <span class="st">"lo(depth, span = .h[2], degree = 1)"</span>, </span>
+<span>                     y_table <span class="op">=</span> <span class="st">"lo(table, span = .h[3], degree = 1)"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span>.id <span class="op">=</span> <span class="st">"Method"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">remove_rownames</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">real_train</span>, <span class="va">real_train</span>, <span class="va">real_train</span>, <span class="va">real_train</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>x_carat <span class="op">=</span> <span class="va">carat</span>, x_depth <span class="op">=</span> <span class="va">depth</span>, x_table <span class="op">=</span> <span class="va">table</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">y</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="op">!</span><span class="va">Method</span>, names_to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">".value"</span>, <span class="st">"Variable"</span><span class="op">)</span>, names_sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">grid_predict</span> <span class="op">&lt;-</span> <span class="va">predict_grid_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">scale</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">as.data.frame</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">rename</span>, y_carat <span class="op">=</span> <span class="st">"lo(carat, span = .h[1], degree = 1)"</span>,</span>
+<span>                     y_depth <span class="op">=</span> <span class="st">"lo(depth, span = .h[2], degree = 1)"</span>, </span>
+<span>                     y_table <span class="op">=</span> <span class="st">"lo(table, span = .h[3], degree = 1)"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span>.id <span class="op">=</span> <span class="st">"Method"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">remove_rownames</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">real_grid</span>, <span class="va">real_grid</span>, <span class="va">real_grid</span>, <span class="va">real_grid</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>x_carat <span class="op">=</span> <span class="va">carat</span>, x_depth <span class="op">=</span> <span class="va">depth</span>, x_table <span class="op">=</span> <span class="va">table</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="op">!</span><span class="va">Method</span>, names_to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">".value"</span>, <span class="st">"Variable"</span><span class="op">)</span>, names_sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span></span></code></pre></div>
+<p>We plot the estimate of three component functions on distribution
+test set. We can see that <code>LowCon</code> performs the worst and is
+close to non-convergence. <code>Unif</code> also performed poorly,
+especially at the border. <code>IES</code> performed the best and most
+closely with the full sample.</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ori_predict</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, group <span class="op">=</span> <span class="va">Method</span>, color <span class="op">=</span> <span class="va">Method</span>, linetype <span class="op">=</span> <span class="va">Method</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">Variable</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Component function estimation on the original data."</span><span class="op">)</span></span></code></pre></div>
+<p><img src="IES_Simulation_files/figure-html/component_ori-1.png" width="700"></p>
+<p>And the estimate of three component functions on grid testset which
+has similar performance with distribution testset.</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">grid_predict</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, group <span class="op">=</span> <span class="va">Method</span>, color <span class="op">=</span> <span class="va">Method</span>, linetype <span class="op">=</span> <span class="va">Method</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">Variable</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Component function estimation on the grid."</span><span class="op">)</span></span></code></pre></div>
+<p><img src="IES_Simulation_files/figure-html/component_grid-1.png" width="700"></p>
+</div>
+<div class="section level3">
+<h3 id="compute-measures">Compute measures<a class="anchor" aria-label="anchor" href="#compute-measures"></a>
+</h3>
+<p>We compare the MEE and ASE on the grid and original data under models
+based on different subsample and full data. There is no real response on
+the grid test set, so we use the estimate obtained from the model based
+on full data as the response.</p>
+<p>Extrapolation is carried out not only when drawing graphs, but also
+when calculating measures, otherwise the values of MEE and ASE will be
+extremely large (especially <code>LowCon</code> and
+<code>Unif</code>).</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">y_ori</span> <span class="op">&lt;-</span> <span class="va">real_train</span><span class="op">[[</span><span class="st">"y"</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">y_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/gam/man/predict.gam.html" class="external-link">predict.Gam</a></span><span class="op">(</span><span class="va">model</span><span class="op">[[</span><span class="st">"Full"</span><span class="op">]</span><span class="op">]</span>, <span class="va">real_grid</span><span class="op">)</span></span>
+<span><span class="va">predict_extra_ori</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">map2</a></span><span class="op">(</span><span class="va">model</span>, <span class="va">extrapolation_ori_data</span>, <span class="va">predict.Gam</span><span class="op">)</span></span>
+<span><span class="va">predict_extra_grid</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">map2</a></span><span class="op">(</span><span class="va">model</span>, <span class="va">extrapolation_grid_data</span>, <span class="va">predict.Gam</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">extra_measure</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_cols.html" class="external-link">bind_cols</a></span><span class="op">(</span></span>
+<span>  Measure <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MEE_Ori"</span>, <span class="st">"ASE_Ori"</span>, <span class="st">"MEE_Grid"</span>, <span class="st">"ASE_Grid"</span><span class="op">)</span>,</span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_dbl</a></span><span class="op">(</span><span class="va">predict_extra_ori</span>, <span class="va">mee</span>, <span class="va">y_ori</span><span class="op">)</span>,</span>
+<span>                   <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_dbl</a></span><span class="op">(</span><span class="va">predict_extra_ori</span>, <span class="va">ase</span>, <span class="va">y_ori</span><span class="op">)</span>,</span>
+<span>                   <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_dbl</a></span><span class="op">(</span><span class="va">predict_extra_grid</span>, <span class="va">mee</span>, <span class="va">y_grid</span><span class="op">)</span>,</span>
+<span>                   <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_dbl</a></span><span class="op">(</span><span class="va">predict_extra_grid</span>, <span class="va">ase</span>, <span class="va">y_grid</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="op">!</span><span class="va">Measure</span>, names_to <span class="op">=</span> <span class="st">"Method"</span>, values_to <span class="op">=</span> <span class="st">"Value"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">extra_measure</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">Method</span>, x <span class="op">=</span> <span class="va">Value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_bar</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"identity"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">Measure</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="IES_Simulation_files/figure-html/real_measure-1.png" width="700"></p>
+<p>IES performed consistently well on MEE. ASE performs better on the
+grid test set and worse on the distribution test set (possibly due to
+data leakage). This is in line with our expectations.</p>
+<blockquote>
+<p><span class="smallcaps"><strong>We have reproduced only some of the
+IES simulations here, and others are subject to subsequent
+refinement.</strong></span></p>
+</blockquote>
+</div>
+</div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
