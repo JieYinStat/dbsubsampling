@@ -31,7 +31,13 @@
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/IBOSS.html</loc>
   </url>
   <url>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/IES.html</loc>
+  </url>
+  <url>
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/L2norm.html</loc>
+  </url>
+  <url>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/LowCon.html</loc>
   </url>
   <url>
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/OSMAC.html</loc>
@@ -44,6 +50,12 @@
   </url>
   <url>
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/armaComputeLoss.html</loc>
+  </url>
+  <url>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/armaIES.html</loc>
+  </url>
+  <url>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/armaIES_compare.html</loc>
   </url>
   <url>
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/armaOSS.html</loc>
@@ -59,6 +71,15 @@
   </url>
   <url>
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/bottom_t_index.html</loc>
+  </url>
+  <url>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/c_IES_compare.html</loc>
+  </url>
+  <url>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/data_IES_Case_1_Train.html</loc>
+  </url>
+  <url>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/data_IES_Case_2_Train.html</loc>
   </url>
   <url>
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/data_binary_class.html</loc>
@@ -106,6 +127,12 @@
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/rL2norm.html</loc>
   </url>
   <url>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/r_IES.html</loc>
+  </url>
+  <url>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/r_IES_compare.html</loc>
+  </url>
+  <url>
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/rbottom_t_index.html</loc>
   </url>
   <url>
@@ -116,6 +143,12 @@
   </url>
   <url>
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/rcpp_cstyle_IBOSS.html</loc>
+  </url>
+  <url>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/scale01.html</loc>
+  </url>
+  <url>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/scale_neg_pos_1.html</loc>
   </url>
   <url>
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/subsampling.html</loc>

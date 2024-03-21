@@ -66,9 +66,11 @@
 <span>  pilot_n <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  method <span class="op">=</span> <span class="st">"Unif"</span>,</span>
 <span>  replace <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  seed <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  seed_1 <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  seed_2 <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  na_method <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  na_method <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -101,6 +103,8 @@ Default to all variables except the response variable</p></dd>
 <li><p><code>OSMAC_L</code>: A subsampling method based on L-optimal for logistic regression proposed by Wang et.al. (2018).</p></li>
 <li><p><code>IBOSS</code>: A subsampling method based on D-optimal for linear regression proposed by Wang et.al. (2019).</p></li>
 <li><p><code>OSS</code> : A subsampling method based on Orthogonal Array proposed by Wang et.al.(2021).</p></li>
+<li><p><code>LowCon</code>: A subsampling method based on Space-filling designs proposed by Meng et.al.(2021).</p></li>
+<li><p><code>IES</code>: A subsampling method based on Orthogonal Array proposed by Zhang et.al.(2024).</p></li>
 </ul></dd>
 
 
@@ -110,16 +114,26 @@ Default to all variables except the response variable</p></dd>
 </ul></dd>
 
 
+<dt>seed</dt>
+<dd><p>Random seed. Default to NULL.</p></dd>
+
+
 <dt>seed_1</dt>
-<dd><p>Random seed for the first stage sampling or Unif.</p></dd>
+<dd><p>Random seed for the first stage sampling (When two-phase subsampling are needed). Default to NULL.</p></dd>
 
 
 <dt>seed_2</dt>
-<dd><p>Random seed for the second stage sampling.</p></dd>
+<dd><p>Random seed for the second stage sampling (When two-phase subsampling are needed). Default to NULL.</p></dd>
 
 
 <dt>na_method</dt>
 <dd><p>Method to handle NA.</p></dd>
+
+
+<dt>...</dt>
+<dd><p>Additional parameters setting for some methods.</p><ul><li><p><code>theta</code>: Percentage of data shrinkage for <code>LowCon</code>. Default to 1.</p></li>
+<li><p><code>q</code> : Hyperparamter of how to divide the axes for <code>IES</code>. Default to 16.</p></li>
+</ul></dd>
 
 </dl></div>
     <div class="section level2">
@@ -132,7 +146,7 @@ Default to all variables except the response variable</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">data_binary</span> <span class="op">&lt;-</span> <span class="va">data_binary_class</span></span></span>
-<span class="r-in"><span><span class="fu">subsampling</span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data_binary</span>, n <span class="op">=</span> <span class="fl">30</span>, method <span class="op">=</span> <span class="st">"Unif"</span>, seed_1 <span class="op">=</span> <span class="fl">123</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">subsampling</span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data_binary</span>, n <span class="op">=</span> <span class="fl">30</span>, method <span class="op">=</span> <span class="st">"Unif"</span>, seed <span class="op">=</span> <span class="fl">123</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 2463 2511 8718 2986 1842 9334 3371 4761 6746 9819 2757 5107 9145 9209 2888</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [16] 6170 2567 9642 9982 2980 1614  555 4469 9359 7789 9991 9097 1047 7067 3004</span>
 <span class="r-in"><span><span class="fu">subsampling</span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data_binary</span>, n <span class="op">=</span> <span class="fl">30</span>, pilot_n <span class="op">=</span> <span class="fl">100</span>, method <span class="op">=</span> <span class="st">"OSMAC_A"</span>,</span></span>
@@ -156,6 +170,10 @@ Default to all variables except the response variable</p></dd>
 <span class="r-in"><span><span class="fu">subsampling</span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data_numeric</span>, n <span class="op">=</span> <span class="fl">30</span>, method <span class="op">=</span> <span class="st">"OSS"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 8841 8961 1902 7512   48 9867 6547 9784 3392 3622 5780 6594 1890 1850 8335</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [16] 1254 6204 1257 4611 3831 4782 4919 1579 3404  718 7189 2060 4899  590 1800</span>
+<span class="r-in"><span><span class="fu">subsampling</span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data_numeric</span>, n <span class="op">=</span> <span class="fl">10</span>, method <span class="op">=</span> <span class="st">"LowCon"</span>, seed <span class="op">=</span> <span class="fl">123</span>, theta <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 6032 6633 4180 5093 6005 7093 3621 4429 1715 7143</span>
+<span class="r-in"><span><span class="fu">subsampling</span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data_numeric</span>, n <span class="op">=</span> <span class="fl">10</span>, method <span class="op">=</span> <span class="st">"IES"</span>, seed <span class="op">=</span> <span class="fl">123</span>, q <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 2876 7890 4440 9400 9813 2499 4939 8165 2224 4628</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
