@@ -1,9 +1,15 @@
+# dbsubsampling 0.0.2
+
+-   Add an implementation of `OSS`, `LowCon` and `IES`.
+
+-   Add an article about the simulation of `IES`.
+
 # dbsubsampling 0.0.1
 
-* Implement more methods. Begin with IBOSS.
+-   Implement more methods. Begin with `IBOSS`.
 
 # dbsubsampling 0.0.0.9001
 
-* Implement Unif and OSMAC.
+-   Implement `Unif`and `OSMAC`.
 
-* Add vignettes and news.
+-   Add vignettes and news.
