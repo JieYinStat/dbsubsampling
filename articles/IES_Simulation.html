@@ -116,7 +116,7 @@ time.</p>
 <span><span class="va">start_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50000</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span><span class="va">.</span> , data <span class="op">=</span> <span class="va">data</span><span class="op">)</span><span class="op">[[</span><span class="st">"coefficients"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span>  <span class="va">start_time</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Time difference of 1.628522 mins</span></span></code></pre></div>
+<span><span class="co">#&gt; Time difference of 1.6658 mins</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="parallel-with-2-cores">Parallel with 2 cores:<a class="anchor" aria-label="anchor" href="#parallel-with-2-cores"></a>
@@ -126,7 +126,7 @@ time.</p>
 <span><span class="va">start_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">mclapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50000</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span><span class="va">.</span> , data <span class="op">=</span> <span class="va">data</span><span class="op">)</span><span class="op">[[</span><span class="st">"coefficients"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, mc.cores <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span>  <span class="va">start_time</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Time difference of 52.99863 secs</span></span></code></pre></div>
+<span><span class="co">#&gt; Time difference of 53.34155 secs</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="parallel-with-5-cores">Parallel with 5 cores:<a class="anchor" aria-label="anchor" href="#parallel-with-5-cores"></a>
@@ -136,7 +136,7 @@ time.</p>
 <span><span class="va">start_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">mclapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50000</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span><span class="va">.</span> , data <span class="op">=</span> <span class="va">data</span><span class="op">)</span><span class="op">[[</span><span class="st">"coefficients"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, mc.cores <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span>  <span class="va">start_time</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Time difference of 40.65962 secs</span></span></code></pre></div>
+<span><span class="co">#&gt; Time difference of 41.17567 secs</span></span></code></pre></div>
 <p>We don’t know how many cores the remote server can assign us. After
 trying, the remote server did assign us multiple cores, and five cores
 seemed to be the fastest and most locally appropriate number.</p>
@@ -174,8 +174,8 @@ RcppArmadillo):</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 4</span></span></span>
 <span><span class="co">#&gt;   expression                                         min   median mem_alloc</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;bch:expr&gt;</span>                                    <span style="color: #949494; font-style: italic;">&lt;bch:tm&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:tm&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:byt&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> dbsubsampling::r_IES_compare(X_compare, n, q)    18.6s    18.8s     1.1GB</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> dbsubsampling::c_IES_compare(X_compare, n, q)  110.3ms  110.9ms    1.52MB</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> dbsubsampling::r_IES_compare(X_compare, n, q)    18.7s    19.4s     1.1GB</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> dbsubsampling::c_IES_compare(X_compare, n, q)  110.1ms  110.8ms    1.52MB</span></span></code></pre></div>
 <p>RcppArmadillo greatly improves speed. We use RcppArmadillo in the
 main function.</p>
 </div>
@@ -421,7 +421,7 @@ Subsampling for Nonparametric Additive Models</a>).</p></li>
 <span><span class="va">Case1_time_start</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">result_case_1</span> <span class="op">&lt;-</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">mclapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="va">get_combine_result</span>, mc.cores <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">Case1_time_start</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Time difference of 18.93482 mins</span></span></code></pre></div>
+<span><span class="co">#&gt; Time difference of 19.92717 mins</span></span></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="va">result_case_1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -476,7 +476,7 @@ and ASE in the two test datasets based on three subsampling methods.</p>
 <span><span class="va">Case2_time_start</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">result_case_2</span> <span class="op">&lt;-</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">mclapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="va">get_combine_result</span>, mc.cores <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">Case2_time_start</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Time difference of 29.56757 mins</span></span></code></pre></div>
+<span><span class="co">#&gt; Time difference of 39.30968 mins</span></span></code></pre></div>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="va">result_case_2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -562,7 +562,7 @@ numeric simulation, we didn’t consider handle outliers)</p>
 <span>                                  x_name <span class="op">=</span> <span class="va">x_name</span>, y_name <span class="op">=</span> <span class="st">"y"</span>,</span>
 <span>                                  handle_outlier <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">real_cv_time</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Time difference of 14.20321 mins</span></span></code></pre></div>
+<span><span class="co">#&gt; Time difference of 14.3695 mins</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="estimate-component-function">Estimate component function<a class="anchor" aria-label="anchor" href="#estimate-component-function"></a>
