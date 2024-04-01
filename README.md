@@ -6,10 +6,9 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/JieYinStat/dbsubsampling/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/JieYinStat/dbsubsampling/actions/workflows/R-CMD-check.yaml)
-[![test-coverage](https://github.com/JieYinStat/dbsubsampling/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/JieYinStat/dbsubsampling/actions/workflows/test-coverage.yaml)
-[![pkgdown](https://github.com/JieYinStat/dbsubsampling/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/JieYinStat/dbsubsampling/actions/workflows/pkgdown.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/JieYinStat/dbsubsampling/branch/master/graph/badge.svg)](https://app.codecov.io/gh/JieYinStat/dbsubsampling?branch=master)
+[![pkgdown](https://github.com/JieYinStat/dbsubsampling/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/JieYinStat/dbsubsampling/actions/workflows/pkgdown.yaml)
 <!-- badges: end -->
 
 Providing a unified interface for IBOSS, Lowcon, OSS and other popular
