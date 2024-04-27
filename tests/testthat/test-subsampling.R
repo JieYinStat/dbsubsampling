@@ -27,6 +27,14 @@ test_that("IBOSS subsampling", {
 
 })
 
+test_that("Leverage subsampling", {
+  data_numeric <- data_numeric_regression
+  expect_equal(subsampling(y_name = "y", data = data_numeric, n = 100, method = "Leverage", replace = TRUE, seed = 123,
+                           shrinkage = 0.9),
+               subsampling(y_name = "y", data = data_numeric, n = 100, method = "Leverage", replace = TRUE, seed = 123,
+                           shrinkage = 0.9))
+})
+
 test_that("OSS subsampling", {
   data_numeric <- data_numeric_regression
   expect_equal(subsampling(y_name = "y", data = data_numeric, n = 100, method = "OSS", seed = 123),
@@ -35,12 +43,20 @@ test_that("OSS subsampling", {
 
 test_that("LowCon subsampling", {
   data_numeric <- data_numeric_regression
-  expect_equal(subsampling(y_name = "y", data = data_numeric, n = 100, method = "LowCon", seed = 123),
-               subsampling(y_name = "y", data = data_numeric, n = 100, method = "LowCon", seed = 123))
+  expect_equal(subsampling(y_name = "y", data = data_numeric, n = 100, method = "LowCon", seed = 123, theta = 1),
+               subsampling(y_name = "y", data = data_numeric, n = 100, method = "LowCon", seed = 123, theta = 1))
 })
 
 test_that("IES subsampling", {
   data_numeric <- data_numeric_regression
-  expect_equal(subsampling(y_name = "y", data = data_numeric, n = 100, method = "IES", seed = 123),
-             subsampling(y_name = "y", data = data_numeric, n = 100, method = "IES", seed = 123))
+  expect_equal(subsampling(y_name = "y", data = data_numeric, n = 100, method = "IES", seed = 123, q = 16),
+             subsampling(y_name = "y", data = data_numeric, n = 100, method = "IES", seed = 123, q = 16))
 })
+
+test_that("DDS subsampling", {
+  data_numeric <- data_numeric_regression
+  expect_equal(subsampling(y_name = "y", data = data_numeric, n = 100, method = "DDS", ratio = 0.85),
+               subsampling(y_name = "y", data = data_numeric, n = 100, method = "DDS", ratio = 0.85))
+})
+
+

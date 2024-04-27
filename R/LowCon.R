@@ -30,6 +30,7 @@ trans_LHD_adapt_X <- function(LHD_data, X, theta) {
 #' @param X A data.frame or matrix of explanatory variables.
 #' @param n Subsample size.
 #' @param theta Percentage of data shrinkage. Default to 1.
+#' @param space_method The generation method of initial space-filling design.
 #' @param seed Random seed for the sampling.
 #'
 #' @return Subsample index.
@@ -41,16 +42,23 @@ trans_LHD_adapt_X <- function(LHD_data, X, theta) {
 #' @examples
 #' data <- data_numeric_regression
 #' X <- data[-which(names(data) == "y")]
-#' LowCon(X, n = 100, theta = 1, seed = NULL)
+#' LowCon(X, n = 100, space_method = "randomLHS", theta = 1, seed = NULL)
 #' @export
-LowCon <- function(X, n, theta = 1, seed = NULL){
+
+LowCon <- function(X, n, theta = 1, space_method = "randomLHS", seed = NULL){
   if (!is.null(seed)) withr::local_seed(seed)
 
   X <- scale_neg_pos_1(as.matrix(X))
   attributes(X) <- attributes(X)["dim"]
   p <- ncol(X)
 
-  LHD_data <- lhs::randomLHS(n, p)
+  if (space_method == "randomLHS") {
+    LHD_data <- lhs::randomLHS(n, p)
+  } else if (space_method == "sobol") {
+    LHD_data <- spacefillr::generate_sobol_set(n, p)
+  } else {
+    LHD_data <- lhs::randomLHS(n, p)
+  }
   LHD_data <- trans_LHD_adapt_X(LHD_data, X, theta)
 
   index <- RANN::nn2(X, LHD_data, k=1, treetype = "kd")$nn.idx

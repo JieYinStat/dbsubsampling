@@ -56,6 +56,10 @@ subsampling(y_name = "y", data = data_binary, n = 10, pilot_n = 100, method = "O
 data_numeric <- data_numeric_regression
 subsampling(y_name = "y", data = data_numeric, n = 100, method = "IBOSS")
 
+# Leverage
+subsampling(y_name = "y", data = data_numeric, n = 10, method = "Leverage", replace = TRUE, 
+            seed = 123, shrinkage = 0.9)
+
 # OSS
 subsampling(y_name = "y", data = data_numeric, n = 30, method = "OSS")
 
@@ -64,6 +68,9 @@ subsampling(y_name = "y", data = data_numeric, n = 10, method = "LowCon", seed =
 
 # IES
 subsampling(y_name = "y", data = data_numeric, n = 10, method = "IES", seed = 123, q = 16)
+
+# DDS
+subsampling(y_name = "y", data = data_numeric, n = 10, method = "DDS", ratio = 0.85)
 ```
 
 You can get more detailed examples from the article column on the [website](https://jieyinstat.github.io/dbsubsampling/).

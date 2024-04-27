@@ -4,7 +4,7 @@
 \alias{LowCon}
 \title{LowCon: A Design-based Subsampling Approach in a Misspecified Linear Model}
 \usage{
-LowCon(X, n, theta = 1, seed = NULL)
+LowCon(X, n, theta = 1, space_method = "randomLHS", seed = NULL)
 }
 \arguments{
 \item{X}{A data.frame or matrix of explanatory variables.}
@@ -12,6 +12,8 @@ LowCon(X, n, theta = 1, seed = NULL)
 \item{n}{Subsample size.}
 
 \item{theta}{Percentage of data shrinkage. Default to 1.}
+
+\item{space_method}{The generation method of initial space-filling design.}
 
 \item{seed}{Random seed for the sampling.}
 }
@@ -24,7 +26,7 @@ A subsampling method based space-filling design for misspecified linear model pr
 \examples{
 data <- data_numeric_regression
 X <- data[-which(names(data) == "y")]
-LowCon(X, n = 100, theta = 1, seed = NULL)
+LowCon(X, n = 100, space_method = "randomLHS", theta = 1, seed = NULL)
 }
 \references{
 Cheng Meng, Rui Xie, Abhyuday Mandal, Xinlian Zhang, Wenxuan Zhong & Ping Ma (2021)

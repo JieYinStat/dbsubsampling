@@ -2,7 +2,7 @@
 % Please edit documentation in R/IES.R
 \name{scale01}
 \alias{scale01}
-\title{Scale data to \eqn{[-1, 1]}}
+\title{Scale data to \eqn{[0, 1]^p}}
 \usage{
 scale01(X)
 }
@@ -13,7 +13,7 @@ scale01(X)
 Scaled X.
 }
 \description{
-Scale data to \eqn{[-1, 1]}
+Scale data to \eqn{[0, 1]^p}
 }
 \examples{
 X <- matrix(1:20, 5, 4)

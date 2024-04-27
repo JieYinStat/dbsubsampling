@@ -56,14 +56,15 @@ subsampling <- function(y_name, x_name = NULL, data, n, pilot_n = NULL, method =
   # replace
   subsample_index <- switch(method,
          Unif = Unif(N = N, n = n, seed = seed, replace = TRUE),
-         IBOSS = IBOSS(n = n, X = x),
          OSMAC_A = OSMAC(X = x, Y = y, r1 = pilot_n, r2 = n, method = "mmse", seed_1 = seed_1, seed_2 = seed_2),
          OSMAC_L = OSMAC(X = x, Y = y, r1 = pilot_n, r2 = n, method = "mvc", seed_1 = seed_1, seed_2 = seed_2),
+         IBOSS = IBOSS(n = n, X = x),
+         Leverage = Leverage(X = x, n = n, replace = replace, seed = seed, ...), # shrinkage in ...
          OSS = OSS(n = n, X = x),
          LowCon = LowCon(X = x, n = n, seed = seed, ...), # theta in ...
-         IES = IES(X = x, n = n, seed = seed, ...) # q in ...
+         IES = IES(X = x, n = n, seed = seed, ...), # q in ...
+         DDS = DDS(X = x, n = n, ...) # ratio in ...
          # Support
-         # DDS
     )
   return(subsample_index)
 }

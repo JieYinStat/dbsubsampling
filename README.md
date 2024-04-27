@@ -59,6 +59,11 @@ subsampling(y_name = "y", data = data_numeric, n = 100, method = "IBOSS")
 #> [76] 9211 9302 9364 9398 9456 9676 9946 9971 9989 1173 2344 5394 8438 8567 9239
 #> [91] 1787 2104 2215 3121 7159 9133
 
+# Leverage
+subsampling(y_name = "y", data = data_numeric, n = 10, method = "Leverage", replace = TRUE, 
+            seed = 123, shrinkage = 0.9)
+#>  [1] 8534 2958 2986 9334 4761 9819 2757 9145 3194 2888
+
 # OSS
 subsampling(y_name = "y", data = data_numeric, n = 30, method = "OSS")
 #>  [1] 8841 8961 1902 7512   48 9867 6547 9784 3392 3622 5780 6594 1890 1850 8335
@@ -71,6 +76,20 @@ subsampling(y_name = "y", data = data_numeric, n = 10, method = "LowCon", seed =
 # IES
 subsampling(y_name = "y", data = data_numeric, n = 10, method = "IES", seed = 123, q = 16)
 #>  [1] 2876 7890 4440 9400 9813 2499 4939 8165 2224 4628
+
+# DDS
+subsampling(y_name = "y", data = data_numeric, n = 10, method = "DDS", ratio = 0.85)
+#>       [,1]
+#>  [1,] 7010
+#>  [2,] 3375
+#>  [3,] 4172
+#>  [4,] 9019
+#>  [5,] 4983
+#>  [6,]   85
+#>  [7,] 9454
+#>  [8,] 7745
+#>  [9,] 9810
+#> [10,] 9737
 ```
 
 You can get more detailed examples from the article column on the

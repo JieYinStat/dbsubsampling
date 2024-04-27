@@ -31,8 +31,10 @@ Suggests:
 Config/testthat/edition: 3
 Imports: 
     lhs,
+    primes,
     RANN,
     Rcpp,
+    spacefillr,
     withr
 Depends: 
     R (>= 2.10)

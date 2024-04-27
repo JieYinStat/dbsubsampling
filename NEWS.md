@@ -1,6 +1,10 @@
+# dbsubsampling 0.0.3
+
+-   Add implementations of `Leverage`, `DDS`.
+
 # dbsubsampling 0.0.2
 
--   Add an implementation of `OSS`, `LowCon` and `IES`.
+-   Add implementations of `OSS`, `LowCon` and `IES`.
 
 -   Add an article about the simulation of `IES`.
 
