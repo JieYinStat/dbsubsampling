@@ -27,12 +27,13 @@ devtools::install_github("JieYinStat/dbsubsampling")
 ## Example
 
 This is a basic example which shows you how to get subsample index, such
-as uniform sampling, OSMAC, IBOSS, OSS, LowCon and IES:
+as uniform sampling, OSMAC, IBOSS, Leverage, OSS, LowCon, IES and DDS:
 
 ``` r
 library(dbsubsampling)
 
 data_binary <- data_binary_class
+data_numeric <- data_numeric_regression
 
 # Uniform sampling
 subsampling(y_name = "y", data = data_binary, n = 10, method = "Unif", seed = 123)
@@ -49,7 +50,6 @@ subsampling(y_name = "y", data = data_binary, n = 10, pilot_n = 100, method = "O
 #>  [1] 5813 1681 5372 8313 8863 9780 1630 6103 2702 5888
 
 # IBOSS
-data_numeric <- data_numeric_regression
 subsampling(y_name = "y", data = data_numeric, n = 100, method = "IBOSS")
 #>  [1]  183  226  395  419  584  666  711  758 1027 1144 1324 1445 1940 1946 1978
 #> [16] 2018 2673 2982 3190 3395 3484 3612 3632 3638 3696 3816 3835 3896 3921 4256
@@ -79,17 +79,8 @@ subsampling(y_name = "y", data = data_numeric, n = 10, method = "IES", seed = 12
 
 # DDS
 subsampling(y_name = "y", data = data_numeric, n = 10, method = "DDS", ratio = 0.85)
-#>       [,1]
-#>  [1,] 7010
-#>  [2,] 3375
-#>  [3,] 4172
-#>  [4,] 9019
-#>  [5,] 4983
-#>  [6,]   85
-#>  [7,] 9454
-#>  [8,] 7745
-#>  [9,] 9810
-#> [10,] 9737
+#>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+#> [1,] 7010 3375 4172 9019 4983   85 9454 7745 9810  9737
 ```
 
 You can get more detailed examples from the article column on the

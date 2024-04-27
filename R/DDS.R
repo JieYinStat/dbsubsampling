@@ -68,5 +68,5 @@ DDS <- function(X, n, ratio = 0.85) {
   }
 
   index <- RANN::nn2(data = Z, query = Q, k = 1, treetype = "kd")$nn.idx
-  return(index)
+  return(t(index))
 }
