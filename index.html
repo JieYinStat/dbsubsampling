@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="index.html">dbsubsampling</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -95,11 +95,12 @@
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>This is a basic example which shows you how to get subsample index, such as uniform sampling, OSMAC, IBOSS, OSS, LowCon and IES:</p>
+<p>This is a basic example which shows you how to get subsample index, such as uniform sampling, OSMAC, IBOSS, Leverage, OSS, LowCon, IES and DDS:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JieYinStat/dbsubsampling" class="external-link">dbsubsampling</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">data_binary</span> <span class="op">&lt;-</span> <span class="va">data_binary_class</span></span>
+<span><span class="va">data_numeric</span> <span class="op">&lt;-</span> <span class="va">data_numeric_regression</span></span>
 <span></span>
 <span><span class="co"># Uniform sampling</span></span>
 <span><span class="fu"><a href="reference/subsampling.html">subsampling</a></span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data_binary</span>, n <span class="op">=</span> <span class="fl">10</span>, method <span class="op">=</span> <span class="st">"Unif"</span>, seed <span class="op">=</span> <span class="fl">123</span><span class="op">)</span></span>
@@ -116,7 +117,6 @@
 <span><span class="co">#&gt;  [1] 5813 1681 5372 8313 8863 9780 1630 6103 2702 5888</span></span>
 <span></span>
 <span><span class="co"># IBOSS</span></span>
-<span><span class="va">data_numeric</span> <span class="op">&lt;-</span> <span class="va">data_numeric_regression</span></span>
 <span><span class="fu"><a href="reference/subsampling.html">subsampling</a></span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data_numeric</span>, n <span class="op">=</span> <span class="fl">100</span>, method <span class="op">=</span> <span class="st">"IBOSS"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  [1]  183  226  395  419  584  666  711  758 1027 1144 1324 1445 1940 1946 1978</span></span>
 <span><span class="co">#&gt; [16] 2018 2673 2982 3190 3395 3484 3612 3632 3638 3696 3816 3835 3896 3921 4256</span></span>
@@ -146,17 +146,8 @@
 <span></span>
 <span><span class="co"># DDS</span></span>
 <span><span class="fu"><a href="reference/subsampling.html">subsampling</a></span><span class="op">(</span>y_name <span class="op">=</span> <span class="st">"y"</span>, data <span class="op">=</span> <span class="va">data_numeric</span>, n <span class="op">=</span> <span class="fl">10</span>, method <span class="op">=</span> <span class="st">"DDS"</span>, ratio <span class="op">=</span> <span class="fl">0.85</span><span class="op">)</span></span>
-<span><span class="co">#&gt;       [,1]</span></span>
-<span><span class="co">#&gt;  [1,] 7010</span></span>
-<span><span class="co">#&gt;  [2,] 3375</span></span>
-<span><span class="co">#&gt;  [3,] 4172</span></span>
-<span><span class="co">#&gt;  [4,] 9019</span></span>
-<span><span class="co">#&gt;  [5,] 4983</span></span>
-<span><span class="co">#&gt;  [6,]   85</span></span>
-<span><span class="co">#&gt;  [7,] 9454</span></span>
-<span><span class="co">#&gt;  [8,] 7745</span></span>
-<span><span class="co">#&gt;  [9,] 9810</span></span>
-<span><span class="co">#&gt; [10,] 9737</span></span></code></pre></div>
+<span><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]</span></span>
+<span><span class="co">#&gt; [1,] 7010 3375 4172 9019 4983   85 9454 7745 9810  9737</span></span></code></pre></div>
 <p>You can get more detailed examples from the article column on the <a href="https://jieyinstat.github.io/dbsubsampling/">website</a>.</p>
 </div>
 </div>
