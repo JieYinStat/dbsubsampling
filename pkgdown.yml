@@ -1,11 +1,11 @@
 pandoc: 3.1.11
-pkgdown: 2.0.7
+pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   CompareComputeTime: CompareComputeTime.html
-  Subsampling: Subsampling.html
   IES_Simulation: IES_Simulation.html
-last_built: 2024-04-01T07:11Z
+  Subsampling: Subsampling.html
+last_built: 2024-04-27T07:42Z
 urls:
   reference: https://jieyinstat.github.io/dbsubsampling/reference
   article: https://jieyinstat.github.io/dbsubsampling/articles

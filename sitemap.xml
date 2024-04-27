@@ -31,6 +31,9 @@
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/ComputeLoss.html</loc>
   </url>
   <url>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/DDS.html</loc>
+  </url>
+  <url>
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/IBOSS.html</loc>
   </url>
   <url>
@@ -38,6 +41,9 @@
   </url>
   <url>
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/L2norm.html</loc>
+  </url>
+  <url>
+    <loc>https://jieyinstat.github.io/dbsubsampling/reference/Leverage.html</loc>
   </url>
   <url>
     <loc>https://jieyinstat.github.io/dbsubsampling/reference/LowCon.html</loc>
