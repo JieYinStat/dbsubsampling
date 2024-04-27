@@ -1,3 +1,5 @@
+# dbsubsampling 0.1.0
+
 # dbsubsampling 0.0.3
 
 -   Add implementations of `Leverage`, `DDS`.
